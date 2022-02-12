@@ -2,28 +2,28 @@ package process;
 
 import process.dataClasses.HumanBeing;
 import process.repositories.HumanBeingRepository;
-import process.specifications.HumanBeingSpecification;
+import process.specifications.HumanBeingSpecifications;
 
 import java.util.LinkedHashMap;
 
 public class DataManager extends LinkedHashMap<String, HumanBeing> implements HumanBeingRepository {
     public void insertHumanBeing(HumanBeing human){
-        return;
+        this.put(Integer.toString(human.getId()), human);
     }
 
     public void removeHumanBeing(HumanBeing human){
-        return;
+        this.remove(Integer.toString(human.getId()));
     }
 
     public void updateHumanBeing(HumanBeing human){
         return;
     }
 
-    public HumanBeing specifyHumanBeing(HumanBeingSpecification specification){
+    public HumanBeing specifyHumanBeing(HumanBeingSpecifications specification){
       return new HumanBeing();
     }
 
-    public void sort(HumanBeingSpecification specification){
+    public void sort(HumanBeingSpecifications specification){
         return;
     }
 }

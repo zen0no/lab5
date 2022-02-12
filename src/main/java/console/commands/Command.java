@@ -5,8 +5,15 @@ public abstract class Command {
     private String name;
     private String description;
 
-    boolean execute(){
-        return true;
-    }
+    abstract boolean execute();
 
+
+    public String getName()
+    {
+        return name;
+    };
+
+    public String getDescription() {
+        return description;
+    }
 }

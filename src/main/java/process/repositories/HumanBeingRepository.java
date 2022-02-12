@@ -1,11 +1,11 @@
 package process.repositories;
 
 import process.dataClasses.HumanBeing;
-import process.specifications.HumanBeingSpecification;
+import process.specifications.HumanBeingSpecifications;
 
 public interface HumanBeingRepository {
     void insertHumanBeing(HumanBeing human);
     void removeHumanBeing(HumanBeing human);
     void updateHumanBeing(HumanBeing human);
-    HumanBeing specifyHumanBeing(HumanBeingSpecification specification);
+    HumanBeing specifyHumanBeing(HumanBeingSpecifications specification);
 }

@@ -6,4 +6,6 @@ public enum WeaponType {
     KNIFE,
     BAT,
     ;
+
+
 }

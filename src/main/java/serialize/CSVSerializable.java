@@ -1,6 +1,6 @@
 package serialize;
 
-public interface SerializableStructure {
+public interface CSVSerializable  {
     void serialize();
     void loadFromFile();
 }
