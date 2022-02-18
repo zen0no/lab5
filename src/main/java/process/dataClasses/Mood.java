@@ -2,7 +2,7 @@ package process.dataClasses;
 
 import java.util.EnumSet;
 
-public enum Mood {
+public enum Mood implements Comparable<Mood>{
     SADNESS("sadness"),
     SORROW("sorrow"),
     GLOOM("gloom"),
@@ -27,6 +27,7 @@ public enum Mood {
         }
         throw new IllegalArgumentException("incorrect format of string");
     }
+
 
     @Override
     public String toString() {

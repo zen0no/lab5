@@ -2,7 +2,7 @@ package process.dataClasses;
 
 import java.util.Objects;
 
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates>{
     private final long x; // max: 673
     private final   long y;
 
@@ -25,6 +25,22 @@ public class Coordinates {
         }
     }
 
+    public long getX() {
+        return x;
+    }
+
+    public long getY() {
+        return y;
+    }
+
+    @Override
+    public int compareTo(Coordinates o){
+        if (getX() > o.getX()) return 1;
+        if (getX() < o.getX()) return -1;
+        if (getY() > o.getY()) return 1;
+        if (getY() < o.getY()) return -1;
+        return 0;
+    }
 
     @Override
     public boolean equals(Object o) {

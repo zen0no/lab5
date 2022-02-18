@@ -3,7 +3,7 @@ package process.dataClasses;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Car {
+public class Car implements Comparable<Car>{
     private final boolean cool;
 
     public Car(boolean cool){
@@ -24,8 +24,17 @@ public class Car {
         return cool == car.cool;
     }
 
+    public boolean isCool() {
+        return cool;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(cool);
+    }
+
+    @Override
+    public int compareTo(Car o) {
+        return Boolean.compare(isCool(), o.isCool());
     }
 }

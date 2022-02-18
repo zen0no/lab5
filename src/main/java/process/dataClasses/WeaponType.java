@@ -2,7 +2,7 @@ package process.dataClasses;
 
 import java.util.EnumSet;
 
-public enum WeaponType {
+public enum WeaponType implements Comparable<WeaponType>{
     AXE("axe"),
     PISTOL("pistol"),
     KNIFE("knife"),
