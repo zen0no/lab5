@@ -1,6 +1,11 @@
-public class Application {
+import console.CommandManager;
+import process.repositories.HumanBeingRepository;
 
-    public static void main(String[] args){
-        return;
+
+public class Application {
+    public static void main(){
+        HumanBeingRepository repository = new HumanBeingRepository();
+        CommandManager commandManager = new CommandManager(System.in, repository);
+        commandManager.read();
     }
 }
