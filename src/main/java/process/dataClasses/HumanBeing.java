@@ -5,12 +5,11 @@ import process.exceptions.ModelFieldException;
 import process.exceptions.NullFieldException;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class HumanBeing implements Comparable<HumanBeing>{
-    private static int primaryKeyCounter = 0;
-
 
     private final Set<String> fields = Set.of("id",
             "creationDate",
@@ -36,18 +35,13 @@ public class HumanBeing implements Comparable<HumanBeing>{
     private Car car;
 
 
-    public HumanBeing(){
-        setId(primaryKeyCounter);
-        primaryKeyCounter++;
+    public HumanBeing(int primaryKey){
+        setPrimaryKey(primaryKey);
         setCreationDate(new Date());
     }
 
     public int getPrimaryKey() {
         return id;
-    }
-
-    public static void setPrimaryKeyCounter(int counter){
-        primaryKeyCounter = counter;
     }
 
     public int getId(){ return id;}
@@ -90,6 +84,10 @@ public class HumanBeing implements Comparable<HumanBeing>{
 
     public Set<String> getFields() {
         return fields;
+    }
+
+    private void setPrimaryKey(int primaryKey){
+        setId(primaryKey);
     }
 
     public void setCar(Car car) throws ModelFieldException{
@@ -161,6 +159,59 @@ public class HumanBeing implements Comparable<HumanBeing>{
         if (result != 0) return result;
         result = getWeaponType().compareTo(o.getWeaponType());
         return result;
+    }
+
+    public int compareToMap(Map.Entry<String, String> field){
+        if (!getFields().contains(field.getKey())) throw new IllegalModelFieldException("HumanBeing has no such field");
+
+        if (field.getKey().equals("name")) return getName().compareTo(field.getValue());
+        try {
+            if (field.getKey().equals("impactSpeed")) return Integer.compare(getImpactSpeed(), Integer.parseInt(field.getValue()));
+        }
+        catch (NumberFormatException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.impactSpeed");
+        }
+        try {
+            if (field.getKey().equals("coordinates")) return getCoordinates().compareTo(Coordinates.
+                    parseCoordinates(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.coordinates");
+        }
+        try {
+            if (field.getKey().equals("car")) return getCar().compareTo(Car.
+                    parseCar(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.car");
+        }
+        try {
+            if (field.getKey().equals("mood")) return getMood().compareTo(Mood.
+                    parseMood(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.mood");
+        }
+        try {
+            if (field.getKey().equals("weaponType")) return getWeaponType().compareTo(WeaponType.
+                    parseWeaponType(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.weaponType");
+        }
+        try {
+            if (field.getKey().equals("realHero")) return Boolean.compare(isRealHero(), Boolean.parseBoolean(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.realHero");
+        }
+        try {
+            if (field.getKey().equals("hasToothpick")) return Boolean.compare(isHasToothpick(), Boolean.parseBoolean(field.getValue()));
+        }
+        catch (IllegalArgumentException e){
+            throw new IllegalModelFieldException("Incorrect value for HumanBeing.hasToothpick");
+        }
+        return 0;
     }
 
     @Override

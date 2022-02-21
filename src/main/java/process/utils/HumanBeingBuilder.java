@@ -11,8 +11,8 @@ import java.util.Set;
 public class HumanBeingBuilder {
     HumanBeing currentHuman;
 
-    public void create() throws BuilderException {
-        if (currentHuman == null) currentHuman = new HumanBeing();
+    public void create(int primaryKey) throws BuilderException {
+        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey);
         else throw new BuilderException("Entity is already building");
     }
 

@@ -115,4 +115,13 @@ public class HumanBeingSpecifications {
             }
         };
     }
+
+    public static Specification<HumanBeing> Lower(HumanBeing o){
+        return new CompositeSpecification<HumanBeing>() {
+            @Override
+            public boolean isSatisfiedBy(HumanBeing candidate) {
+                return o.compareTo(candidate) > 0;
+            }
+        };
+    }
 }
