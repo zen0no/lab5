@@ -76,7 +76,7 @@ public class ExecuteScriptCommand implements Command{
             c = new ShowCommand(repository);
             commands.put(c.getName(), c);
 
-            c = new UpdateIdCommand(repository);
+            c = new UpdateCommand(repository);
             commands.put(c.getName(), c);
 
 

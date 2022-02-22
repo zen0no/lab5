@@ -5,7 +5,6 @@ import console.exceptions.CommandManagerExitException;
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
 import process.dataClasses.HumanBeing;
-import process.repositories.HumanBeingRepository;
 import process.repositories.Repository;
 
 import java.io.InputStream;
@@ -14,7 +13,8 @@ import java.util.*;
 public class CommandManager {
     private Scanner scanner;
     private ArrayList<Command> executedCommands = new ArrayList<>();
-    private Map<String, Command> availableCommands;
+    private Map<String, Command> availableCommands = new HashMap<>(); {
+    };
     private Repository<HumanBeing> repository;
 
     /**
@@ -41,17 +41,23 @@ public class CommandManager {
 
 
     public void read(){
-        while (scanner.hasNext()){
+        while (scanner.hasNextLine()){
             try {
-                String s = scanner.next();
+                String s = scanner.nextLine();
                 List<String> args = Arrays.asList(s.split(" "));
                 Command command = availableCommands.get(args.get(0));
                 command.execute(args.subList(1, args.size()));
                 executedCommands.add(command);
             }
-            catch (ConsoleException e) {
+            catch (CommandManagerExitException e){
                 System.out.println(e.getMessage());
                 break;
+            }
+            catch (ConsoleException e) {
+                System.out.println(e.getMessage());
+            }
+            catch (NullPointerException e){
+                System.out.println("Unknown command");
             }
         }
     }
@@ -62,7 +68,7 @@ public class CommandManager {
     private class Help implements Command{
         @Override
         public boolean execute(List<String> args) throws ConsoleException {
-            if (args.isEmpty()){
+            if (!validateArguments(args)){
                 throw new IncorrectArgumentConsoleException("Command help has no arguments");
             }
             for (Map.Entry<String, Command> c: availableCommands.entrySet()){
@@ -95,13 +101,12 @@ public class CommandManager {
 
         @Override
         public boolean execute(List<String> args) throws ConsoleException {
-            if (args.isEmpty()) {
+            if (!validateArguments(args)) {
                 throw new IncorrectArgumentConsoleException("Command history has no arguments");
             }
             if (executedCommands.size() <= 11) {
                 for (Command c : Set.copyOf(executedCommands)) {
                     System.out.println(c.getName());
-                    System.out.println(c.getDescription());
                 }
                 return true;
             }
@@ -122,7 +127,7 @@ public class CommandManager {
 
         @Override
         public String getName() {
-            return "help";
+            return "history";
         }
 
         @Override

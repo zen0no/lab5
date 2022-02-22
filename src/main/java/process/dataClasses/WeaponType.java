@@ -20,17 +20,16 @@ public enum WeaponType implements Comparable<WeaponType>{
     }
 
     public static WeaponType parseWeaponType(String s) throws IllegalArgumentException{
+        if (s == null) return null;
         for(WeaponType w: EnumSet.allOf(WeaponType.class)){
             if (w.getDescription().equals(s)) return w;
         }
 
-        throw new IllegalArgumentException("incorrect format of string");
+        throw new IllegalArgumentException("can't parse weaponType from \"" + s + "\"");
     }
 
     @Override
     public String toString() {
-        return "WeaponType{" +
-                "description='" + description + '\'' +
-                '}';
+        return getDescription();
     }
 }

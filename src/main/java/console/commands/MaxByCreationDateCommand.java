@@ -25,7 +25,7 @@ public class MaxByCreationDateCommand implements Command{
         }
         try{
             List<HumanBeing> elements = repository.query();
-            System.out.println(elements.stream().max((o1, o2) -> o1.getCreationDate().compareTo(o2.getCreationDate())));
+            System.out.println(elements.stream().max((o1, o2) -> o1.getCreationDate().compareTo(o2.getCreationDate())).get());
             return true;
         }
         catch (RuntimeException e){

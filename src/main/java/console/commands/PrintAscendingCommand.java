@@ -10,6 +10,7 @@ import process.dataClasses.HumanBeing;
 import process.repositories.Repository;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ public class PrintAscendingCommand implements Command {
             throw new IncorrectArgumentConsoleException("Incorrect argument exception");
         }
         try {
-            for(HumanBeing h: repository.query()) {
+            List<HumanBeing> col = repository.query();
+            Collections.sort(col);
+            for(HumanBeing h: col) {
                 System.out.println(h);
             }
         } catch (RuntimeException e) {

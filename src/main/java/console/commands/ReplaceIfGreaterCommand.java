@@ -38,7 +38,7 @@ public class ReplaceIfGreaterCommand implements Command {
             HumanBeing h = repository.query(HumanBeingSpecifications.Id(id)).get(0);
             HumanBeingBuilder builder = new HumanBeingBuilder();
             Map<String, String> fields = new HashMap<>();
-            for (String s : args.subList(1, args.size() - 1)) {
+            for (String s : args.subList(1, args.size())) {
                 fields.put(s.split("=")[0], s.split("=")[1]);
             }
             for (Map.Entry<String, String> entry : fields.entrySet()) {

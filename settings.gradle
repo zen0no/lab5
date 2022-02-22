@@ -1,5 +1,1 @@
 rootProject.name = 'lab5'
-include 'serializing'
-include 'processing'
-include 'reading'
-

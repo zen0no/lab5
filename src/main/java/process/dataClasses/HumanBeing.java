@@ -28,7 +28,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
     private Coordinates coordinates;
     private java.util.Date creationDate;
     private boolean realHero;
-    private boolean hasToothpick;
+    private Boolean hasToothpick;
     private int impactSpeed;
     private WeaponType weaponType;
     private Mood mood;
@@ -37,7 +37,6 @@ public class HumanBeing implements Comparable<HumanBeing>{
 
     public HumanBeing(int primaryKey){
         setPrimaryKey(primaryKey);
-        setCreationDate(new Date());
     }
 
     public int getPrimaryKey() {
@@ -91,21 +90,21 @@ public class HumanBeing implements Comparable<HumanBeing>{
     }
 
     public void setCar(Car car) throws ModelFieldException{
-        if (car == null) throw new NullFieldException("HumanBeingModel.car is not nullable");
+        if (car == null) throw new NullFieldException("HumanBeing.car is not nullable");
         this.car = car;
     }
 
     public void setCoordinates(Coordinates coordinates) throws ModelFieldException{
-        if (coordinates == null) throw new NullFieldException("HumanBeingModel.coordinates is not nullable");
+        if (coordinates == null) throw new NullFieldException("HumanBeing.coordinates is not nullable");
         this.coordinates = coordinates;
     }
 
-    private void setCreationDate(Date creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
     public void setRealHero(Boolean realHero) throws ModelFieldException{
-        if (realHero == null) throw new NullFieldException("HumanBeingModel.realHero is not nullable");
+        if (realHero == null) throw new NullFieldException("HumanBeing.realHero is not nullable");
         this.realHero = realHero;
     }
 
@@ -119,23 +118,23 @@ public class HumanBeing implements Comparable<HumanBeing>{
     }
 
     public void setImpactSpeed(Integer impactSpeed) throws ModelFieldException{
-        if (impactSpeed == null) throw new NullFieldException("HumanBeingModel.impactSpeed is not nullable");
+        if (impactSpeed == null) throw new NullFieldException("HumanBeing.impactSpeed is not nullable");
         this.impactSpeed = impactSpeed;
     }
 
     public void setMood(Mood mood) throws ModelFieldException{
-        if (mood == null) throw new NullFieldException("HumanBeingModel.mood is not nullable");
+        if (mood == null) throw new NullFieldException("HumanBeing.mood is not nullable");
         this.mood = mood;
     }
 
     public void setName(String name) throws ModelFieldException{
-        if (name == null) throw new NullFieldException("HumanBeingModel.name is not nullable");
-        if (name.equals("")) throw new IllegalModelFieldException("HumanBeingModel.name can't be empty");
+        if (name == null) throw new NullFieldException("HumanBeing.name is not nullable");
+        if (name.equals("")) throw new IllegalModelFieldException("HumanBeing.name can't be empty");
         this.name = name;
     }
 
     public void setWeaponType(WeaponType weaponType) throws ModelFieldException {
-        if (weaponType == null) throw new NullFieldException("HumanBeingModel.weaponType is not nullable");
+        if (weaponType == null) throw new NullFieldException("HumanBeing.weaponType is not nullable");
         this.weaponType = weaponType;
     }
 
@@ -212,6 +211,22 @@ public class HumanBeing implements Comparable<HumanBeing>{
             throw new IllegalModelFieldException("Incorrect value for HumanBeing.hasToothpick");
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "HumanBeing{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", realHero=" + realHero +
+                ", hasToothpick=" + hasToothpick +
+                ", impactSpeed=" + impactSpeed +
+                ", weaponType=" + weaponType +
+                ", mood=" + mood +
+                ", car=" + car +
+                '}';
     }
 
     @Override

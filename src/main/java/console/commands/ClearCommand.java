@@ -42,7 +42,7 @@ public class ClearCommand implements Command {
 
     @Override
     public boolean validateArguments(List<String> args){
-        return args.size() > 0;
+        return args.size() == 0;
     }
 
     @Override

@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UpdateIdCommand implements Command{
+public class UpdateCommand implements Command{
     Repository<HumanBeing> repository;
 
     /**
      * Constructor of class
      * @param repository
      */
-    public UpdateIdCommand(Repository<HumanBeing> repository) {
+    public UpdateCommand(Repository<HumanBeing> repository) {
         this.repository = repository;
     }
 
@@ -59,6 +59,7 @@ public class UpdateIdCommand implements Command{
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
+        if (args.size() <= 2) return false;
         for(String s: args){
             if (!s.contains("=")) return false;
         }

@@ -7,9 +7,11 @@ package console.commands;
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
 import process.dataClasses.HumanBeing;
+import process.exceptions.BuilderException;
 import process.repositories.Repository;
 import process.utils.HumanBeingBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,8 @@ public class InsertCommand implements Command{
             builder.create(repository.getPrimaryKeyCounter());
             Map<String, String> builderArgs = new HashMap<>();
             for(String s: args){
-                builderArgs.put(s.split("=")[0], s.split("=")[1]);
+                String[] temp = s.split("=");
+                builderArgs.put(temp[0], temp[1]);
             }
             builder.build(builderArgs);
             HumanBeing h = builder.get();
@@ -39,7 +42,7 @@ public class InsertCommand implements Command{
             System.out.println("Added: " + h.toString());
             return true;
         }
-        catch (RuntimeException e){
+        catch (BuilderException e){
             System.out.println(e.getMessage());
             return false;
         }
@@ -61,7 +64,7 @@ public class InsertCommand implements Command{
                 element = {field1=value1 field2=value2 ...}
                 required fields:\s
                 name: String
-                coordinates: x;y (x: Integer < 673, y: Integer)
+                coordinates: x:y (x: Integer < 673, y: Integer)
                 impactSpeed: Integer
                 car: Boolean
                 realHero: Boolean

@@ -28,7 +28,7 @@ public class RemoveKeyCommand implements Command {
     @Override
     public boolean execute(List<String> args) throws ConsoleException {
         if (!validateArguments(args)) {
-            throw new IncorrectArgumentConsoleException("");
+            throw new IncorrectArgumentConsoleException("Incorrect argument exception for RemoveKeyCommandasd");
         }
         try {
             int id = Integer.parseInt(args.get(0));

@@ -1,5 +1,7 @@
 package process.dataClasses;
 
+import process.exceptions.NullFieldException;
+
 import java.util.Locale;
 import java.util.Objects;
 
@@ -11,9 +13,14 @@ public class Car implements Comparable<Car>{
     }
 
     public static Car parseCar(String s) throws IllegalArgumentException{
-        if ("true".equals(s.toLowerCase(Locale.ROOT))) return new Car(true);
-        else if ("false".equals(s.toLowerCase(Locale.ROOT))) return new Car(false);
-        else throw new IllegalArgumentException("incorrect format of string");
+        try {
+            if ("true".equals(s.toLowerCase(Locale.ROOT))) return new Car(true);
+            else if ("false".equals(s.toLowerCase(Locale.ROOT))) return new Car(false);
+            else throw new IllegalArgumentException("can't parse car from \"" + s + "\"");
+        }
+        catch (NullPointerException e){
+            return null;
+        }
     }
 
     @Override
@@ -26,6 +33,11 @@ public class Car implements Comparable<Car>{
 
     public boolean isCool() {
         return cool;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(cool);
     }
 
     @Override

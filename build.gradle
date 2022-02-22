@@ -1,19 +1,23 @@
 plugins {
-    id 'java'
+    id 'application'
 }
 
-group 'ru.nerve'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'net.sf.supercsv:super-csv:2.4.0'
 }
 
-test {
-    useJUnitPlatform()
+
+application {
+    mainClass = 'laba.Application'
+}
+
+jar{
+    manifest {
+        attributes 'Main-class': 'laba.Application';
+    }
 }

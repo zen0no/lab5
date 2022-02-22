@@ -14,7 +14,6 @@ public interface Repository<T> {
     List<HumanBeing> query(Specification<T> specification);
     List<HumanBeing> query();
     void save();
-    void load();
     ZonedDateTime getInitDate();
     String getTypeName();
     int getPrimaryKeyCounter();

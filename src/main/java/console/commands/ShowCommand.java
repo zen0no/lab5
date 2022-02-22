@@ -33,13 +33,15 @@ public class ShowCommand implements Command {
             throw new IncorrectArgumentConsoleException("Incorrect argument exception");
         }
         try {
-            for (HumanBeing h : repository.query()) {
-                System.out.println(h);
+            List<HumanBeing> col = repository.query();
+            if (col.isEmpty()) System.out.println("Collection is empty");
+            for (HumanBeing h : col) {
+                System.out.println(h.toString());
             }
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return false;
-        }
+        };
         return true;
     }
 
@@ -55,6 +57,6 @@ public class ShowCommand implements Command {
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
-        return false;
+        return args.size() == 0;
     }
 }

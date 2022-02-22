@@ -21,18 +21,19 @@ public enum Mood implements Comparable<Mood>{
     }
 
     public static Mood parseMood(String s) throws IllegalArgumentException{
+        if (s == null){
+            return null;
+        }
         for (Mood m:
                 EnumSet.allOf(Mood.class)) {
             if (m.getDescription().equals(s)) return m;
         }
-        throw new IllegalArgumentException("incorrect format of string");
+        throw new IllegalArgumentException("can't parse mood from \"" + s + "\"");
     }
 
 
     @Override
     public String toString() {
-        return "Mood{" +
-                "description='" + description + '\'' +
-                '}';
+        return getDescription();
     }
 }

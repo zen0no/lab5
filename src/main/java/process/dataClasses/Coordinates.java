@@ -1,5 +1,7 @@
 package process.dataClasses;
 
+import process.exceptions.IllegalModelFieldException;
+
 import java.util.Objects;
 
 public class Coordinates implements Comparable<Coordinates>{
@@ -15,13 +17,17 @@ public class Coordinates implements Comparable<Coordinates>{
     }
 
     public static Coordinates parseCoordinates(String s){
-        String[] args = s.split(";");
-        try {
-            return new Coordinates(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        try
+        {
+            String[] args = s.split(":");
+            try {
+                return new Coordinates(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+            } catch (IndexOutOfBoundsException e) {
+                throw new IllegalModelFieldException("can't parse coordinates from \"" + s + "\"");
+            }
         }
-
-        catch (IndexOutOfBoundsException e){
-            throw new IllegalArgumentException("incorrect format of string");
+        catch (NullPointerException e){
+            return null;
         }
     }
 
@@ -48,6 +54,11 @@ public class Coordinates implements Comparable<Coordinates>{
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
         return x == that.x && y == that.y;
+    }
+
+    @Override
+    public String toString() {
+        return x + ":" + y;
     }
 
     @Override
