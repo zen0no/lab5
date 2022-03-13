@@ -11,7 +11,7 @@ import process.repositories.Repository;
 
 import java.util.List;
 
-public class InfoCommand implements Command{
+public class InfoCommand extends AbstractCommand{
     private Repository<HumanBeing> repository;
 
     public InfoCommand(Repository<HumanBeing> repository) {

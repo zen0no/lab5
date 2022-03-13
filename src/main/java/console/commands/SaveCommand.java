@@ -11,7 +11,7 @@ import process.repositories.Repository;
 
 import java.util.List;
 
-public class SaveCommand implements Command {
+public class SaveCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     public SaveCommand(Repository<HumanBeing> repository) {

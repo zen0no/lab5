@@ -13,7 +13,7 @@ import process.specifications.HumanBeingSpecifications;
 
 import java.util.List;
 
-public class RemoveKeyCommand implements Command {
+public class RemoveKeyCommand extends AbstractCommand {
 
     Repository<HumanBeing> repository;
 

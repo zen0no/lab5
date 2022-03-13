@@ -11,7 +11,7 @@ import process.repositories.Repository;
 
 import java.util.List;
 
-public class MaxByCreationDateCommand implements Command{
+public class MaxByCreationDateCommand extends AbstractCommand{
     Repository<HumanBeing> repository;
 
     public MaxByCreationDateCommand(Repository<HumanBeing> repository) {

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InsertCommand implements Command{
+public class InsertCommand extends AbstractCommand{
     Repository<HumanBeing> repository;
 
     public InsertCommand(Repository<HumanBeing> repository) {
@@ -30,7 +30,7 @@ public class InsertCommand implements Command{
         }
         try{
             HumanBeingBuilder builder = new HumanBeingBuilder();
-            builder.create(repository.getPrimaryKeyCounter());
+            builder.create(args.get(0));
             Map<String, String> builderArgs = new HashMap<>();
             for(String s: args){
                 String[] temp = s.split("=");

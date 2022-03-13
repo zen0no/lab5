@@ -3,6 +3,7 @@ package console.commands;
 import console.exceptions.ConsoleException;
 
 import java.util.List;
+import java.util.Scanner;
 
 public interface Command {
 
@@ -25,6 +26,8 @@ public interface Command {
      * @return
      */
     String getName();
+
+    void setScanner(Scanner scanner);
 
     boolean validateArguments(List<String> args) throws ConsoleException;
 

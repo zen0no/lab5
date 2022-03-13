@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReplaceIfGreaterCommand implements Command {
+public class ReplaceIfGreaterCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     public ReplaceIfGreaterCommand(Repository<HumanBeing> repository) {

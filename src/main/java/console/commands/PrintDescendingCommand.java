@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PrintDescendingCommand implements Command {
+public class PrintDescendingCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     /**

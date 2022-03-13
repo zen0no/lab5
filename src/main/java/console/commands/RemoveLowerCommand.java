@@ -13,7 +13,7 @@ import process.specifications.HumanBeingSpecifications;
 import java.util.HashMap;
 import java.util.List;
 
-public class RemoveLowerCommand implements Command {
+public class RemoveLowerCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     /**

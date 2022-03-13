@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UpdateCommand implements Command{
+public class UpdateCommand extends AbstractCommand{
     Repository<HumanBeing> repository;
 
     /**

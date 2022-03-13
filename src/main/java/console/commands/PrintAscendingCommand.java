@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class PrintAscendingCommand implements Command {
+public class PrintAscendingCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     /**

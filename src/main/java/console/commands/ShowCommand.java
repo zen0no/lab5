@@ -12,7 +12,7 @@ import process.repositories.Repository;
 import java.util.HashMap;
 import java.util.List;
 
-public class ShowCommand implements Command {
+public class ShowCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     /**

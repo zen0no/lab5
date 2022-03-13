@@ -14,17 +14,21 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public class ExecuteScriptCommand implements Command{
+public class ExecuteScriptCommand extends AbstractCommand{
 
     /**
      * Constructor of class
      */
 
     private Repository<HumanBeing> repository;
+    private Set<String> fileNames;
 
-    public ExecuteScriptCommand(Repository<HumanBeing> repository) {
+
+    public ExecuteScriptCommand(Repository<HumanBeing> repository, Set<String> fileNames) {
         this.repository = repository;
+
     }
 
     @Override
@@ -33,6 +37,13 @@ public class ExecuteScriptCommand implements Command{
             throw new IncorrectArgumentConsoleException("Incorrect file path for ExecuteScriptCommand");
         }
         try{
+
+            String path = args.get(0);
+
+            if (fileNames.contains(path)){
+                throw new ConsoleException("This script already executed. Change it to avoid looping");
+            }
+
             File f = new File(args.get(0));
             CommandManager tempManager = new CommandManager(new FileInputStream(f), this.repository);
             Map<String, Command> commands = new HashMap<>();
@@ -40,7 +51,8 @@ public class ExecuteScriptCommand implements Command{
             Command c = new ClearCommand(repository);
             commands.put(c.getName(), c);
 
-            c = new ExecuteScriptCommand(repository);
+            fileNames.add(path);
+            c = new ExecuteScriptCommand(repository, fileNames);
             commands.put(c.getName(), c);
 
             c = new ExitCommand(repository);

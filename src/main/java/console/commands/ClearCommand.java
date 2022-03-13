@@ -11,7 +11,7 @@ import process.repositories.Repository;
 
 import java.util.List;
 
-public class ClearCommand implements Command {
+public class ClearCommand extends AbstractCommand {
     Repository<HumanBeing> repository;
 
     /**

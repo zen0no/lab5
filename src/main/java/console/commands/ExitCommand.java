@@ -12,7 +12,7 @@ import process.repositories.Repository;
 
 import java.util.List;
 
-public class ExitCommand implements Command{
+public class ExitCommand extends AbstractCommand{
 
     private Repository<HumanBeing> repository;
 
