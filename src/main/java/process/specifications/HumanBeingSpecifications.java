@@ -36,7 +36,7 @@ public class HumanBeingSpecifications {
     }
 
     public static Specification<HumanBeing> CreationDate(Date date){
-        return new CompositeSpecification<HumanBeing>() {
+        return new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
                 return candidate.getCreationDate().equals(date);
@@ -63,7 +63,7 @@ public class HumanBeingSpecifications {
     }
 
     public static Specification<HumanBeing> RealHero(boolean realHero){
-        return new CompositeSpecification<HumanBeing>() {
+        return new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
                 return candidate.isRealHero();
@@ -108,7 +108,7 @@ public class HumanBeingSpecifications {
     }
 
     public static Specification<HumanBeing> Car(Car car){
-        return new CompositeSpecification<HumanBeing>() {
+        return new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
                 return candidate.getCar().equals(car);
@@ -117,10 +117,19 @@ public class HumanBeingSpecifications {
     }
 
     public static Specification<HumanBeing> Lower(HumanBeing o){
-        return new CompositeSpecification<HumanBeing>() {
+        return new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
                 return o.compareTo(candidate) > 0;
+            }
+        };
+    }
+
+    public static Specification<HumanBeing> PrimaryKey(String key){
+        return new CompositeSpecification<>() {
+            @Override
+            public boolean isSatisfiedBy(HumanBeing candidate) {
+                return candidate.getPrimaryKey().equals(key);
             }
         };
     }

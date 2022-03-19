@@ -5,97 +5,73 @@ import process.exceptions.BuilderException;
 import process.exceptions.IllegalModelFieldException;
 import process.exceptions.ModelFieldException;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 public class HumanBeingBuilder {
     HumanBeing currentHuman;
+    private int idCounter = 0;
 
-    public void create(int primaryKey) throws BuilderException {
-        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey);
-        else throw new BuilderException("Entity is already building");
+    public void create(String primaryKey) throws BuilderException {
+        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, idCounter);
+        else throw new BuilderException("Builder is busy");
+        idCounter++;
     }
 
-    public void build(Map<String, String> args) throws ModelFieldException, BuilderException{
-        Set<String> fields = currentHuman.getFields();
-        for (String f: args.keySet()){
-            if (!fields.contains(f)) throw new IllegalModelFieldException("HumanBeing has no field " + f);
+    public void create(String primaryKey, int id, Date creationDate) throws BuilderException {
+        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, id, creationDate);
+        else throw new BuilderException("Builder is busy");
+
+        if (id > idCounter){
+            idCounter = id;
         }
 
-        if (args.containsKey("id")) throw new IllegalModelFieldException("HumanBeing.id is generated automatically");
-        if (args.containsKey("creationDate")) throw new IllegalModelFieldException("HumanBeing.creationDate is generated automatically");
-
-        try {
-            currentHuman.setCreationDate(new Date());
-            currentHuman.setName(args.get("name"));
-            currentHuman.setCar(Car.parseCar(args.get("car")));
-            currentHuman.setMood(Mood.parseMood(args.get("mood")));
-            currentHuman.setWeaponType(WeaponType.parseWeaponType(args.get("weaponType")));
-            currentHuman.setCoordinates(Coordinates.parseCoordinates(args.get("coordinates")));
-            if (args.get("hasToothpick") != null)
-                currentHuman.setHasToothpick(Boolean.parseBoolean(args.get("hasToothpick")));
-            currentHuman.setRealHero(Boolean.parseBoolean(args.get("realHero")));
-            currentHuman.setImpactSpeed(Integer.parseInt(args.get("impactSpeed")));
-        }
-        catch (ModelFieldException | IllegalArgumentException e){
-            throw new BuilderException("Builder can't build object: " + e.getMessage());
-        }
     }
 
-    public void buildFromFile(Map<String, String> args) throws ModelFieldException, BuilderException{
-        Set<String> fields = currentHuman.getFields();
-        for (String f: args.keySet()){
-            if (!fields.contains(f)) throw new IllegalModelFieldException("HumanBeing has no field " + f);
-        }
-
-        if (args.containsKey("id")) throw new IllegalModelFieldException("HumanBeing.id is generated automatically");
-
-        try {
-            currentHuman.setName(args.get("name"));
-            currentHuman.setCar(Car.parseCar(args.get("car")));
-            currentHuman.setMood(Mood.parseMood(args.get("mood")));
-            currentHuman.setWeaponType(WeaponType.parseWeaponType(args.get("weaponType")));
-            currentHuman.setCoordinates(Coordinates.parseCoordinates(args.get("coordinates")));
-            currentHuman.setHasToothpick(Boolean.parseBoolean(args.get("hasToothpick")));
-            currentHuman.setRealHero(Boolean.parseBoolean(args.get("realHero")));
-            currentHuman.setImpactSpeed(Integer.parseInt(args.get("impactSpeed")));
-            currentHuman.setCreationDate(java.text.DateFormat.getDateInstance().parse(args.get("creationDate")));
-        }
-        catch (ModelFieldException | ParseException e){
-            throw new BuilderException("Builder can't build object: " + e.getMessage());
-        }
+    public void update(HumanBeing entity) throws BuilderException, IllegalModelFieldException{
+        if (currentHuman == null) currentHuman = entity;
+        else throw  new BuilderException("Builder is busy");
     }
 
-    public HumanBeing update(HumanBeing entity, Map<String, String> args) throws BuilderException, IllegalModelFieldException{
-        Set<String> fields = entity.getFields();
-        for (String f: args.keySet()){
-            if (!fields.contains(f)) throw new IllegalModelFieldException("HumanBeing has no field " + f);
-        }
-
-        if (args.containsKey("id")) throw new IllegalModelFieldException("HumanBeing.id is generated automatically");
-        if (args.containsKey("creationDate")) throw new IllegalModelFieldException("HumanBeing.creationDate is generated automatically");
-
-        try {
-            if (args.containsKey("name")) entity.setName(args.get("name"));
-            if (args.containsKey("car")) entity.setCar(Car.parseCar(args.get("car")));
-            if (args.containsKey("mood")) entity.setMood(Mood.parseMood(args.get("mood")));
-            if (args.containsKey("weaponType")) entity.setWeaponType(WeaponType.parseWeaponType(args.get("weaponType")));
-            if (args.containsKey("coordinates")) entity.setCoordinates(Coordinates.parseCoordinates(args.get("coordinates")));
-            if (args.containsKey("hasToothpick")) entity.setHasToothpick(Boolean.parseBoolean(args.get("hasToothpick")));
-            if (args.containsKey("realHero")) entity.setRealHero(Boolean.parseBoolean(args.get("realHero")));
-            if (args.containsKey("impactSpeed")) entity.setImpactSpeed(Integer.parseInt(args.get("impactSpeed")));
-        }
-        catch (ModelFieldException | IllegalArgumentException e){
-            throw new BuilderException("Builder can't build object: " + " " + e.getMessage());
-        }
-        return entity;
+    public void build(String fieldName, Map<String, String> fieldValue) throws ModelFieldException, BuilderException{
+        if (!HumanBeing.getFields().contains(fieldName))
+            throw new BuilderException("HumanBeing.%s: no such field".formatted(fieldName));
+        if (HumanBeing.getAutoGeneratedFields().contains(fieldName))
+            throw new BuilderException("HumanBeing.%s: field is auto-generated");
+        if (fieldName.equals("name")) currentHuman.setName(fieldValue.get("value"));
+        if (fieldName.equals("coordinates")) currentHuman.setCoordinates(Coordinates.parseCoordinates(fieldValue));
+        if (fieldName.equals("isRealHero")) currentHuman.setRealHero(Boolean.parseBoolean(fieldValue.get("value")));
+        if (fieldName.equals("isHasToothPick")) currentHuman.setHasToothpick(Boolean.parseBoolean(fieldValue.get("value")));
+        if (fieldName.equals("impactSpeed")) currentHuman.setImpactSpeed(Integer.parseInt(fieldValue.get("value")));
+        if (fieldName.equals("mood")) currentHuman.setMood(Mood.parseMood(fieldValue.get("value")));
+        if (fieldName.equals("weaponType")) currentHuman.setWeaponType(WeaponType.parseWeaponType(fieldValue.get("value")));
+        if (fieldName.equals("Car")) currentHuman.setCar(Car.parseCar(fieldValue));
     }
 
-    public HumanBeing get(){
+    public void build(String fieldName, String fieldValue) throws ModelFieldException, BuilderException{
+        if (!HumanBeing.getFields().contains(fieldName))
+            throw new BuilderException("HumanBeing.%s: no such field".formatted(fieldName));
+        if (HumanBeing.getAutoGeneratedFields().contains(fieldName))
+            throw new BuilderException("HumanBeing.%s: field is auto-generated");
+        if (fieldName.equals("name")) currentHuman.setName(fieldValue);
+        if (fieldName.equals("coordinates")) currentHuman.setCoordinates(Coordinates.parseCoordinates(fieldValue));
+        if (fieldName.equals("isRealHero")) currentHuman.setRealHero(Boolean.parseBoolean(fieldValue));
+        if (fieldName.equals("isHasToothPick")) currentHuman.setHasToothpick(Boolean.parseBoolean(fieldValue));
+        if (fieldName.equals("impactSpeed")) currentHuman.setImpactSpeed(Integer.parseInt(fieldValue));
+        if (fieldName.equals("mood")) currentHuman.setMood(Mood.parseMood(fieldValue));
+        if (fieldName.equals("weaponType")) currentHuman.setWeaponType(WeaponType.parseWeaponType(fieldValue));
+        if (fieldName.equals("Car")) currentHuman.setCar(Car.parseCar(fieldValue));
+    }
+
+    public HumanBeing get() throws BuilderException{
+        for (String field: HumanBeing.getFields()) if (!currentHuman.getCurrentFields().contains(field))
+            throw new BuilderException("HumanBeing.%s: field is not nullable".formatted(field));
         HumanBeing temp = currentHuman;
         currentHuman = null;
         return temp;
+    }
+
+    public void setIdCounter(int idCounter) {
+        this.idCounter = idCounter;
     }
 }

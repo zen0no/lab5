@@ -8,13 +8,15 @@ import process.specifications.base.CompositeSpecification;
 import process.specifications.base.Specification;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.*;
 import org.supercsv.io.CsvMapReader;
 import org.supercsv.io.CsvMapWriter;
 import process.utils.HumanBeingBuilder;
 
-public class HumanBeingRepository extends LinkedHashMap<Integer, HumanBeing> implements Repository<HumanBeing> {
+public class HumanBeingRepository extends LinkedHashMap<String, HumanBeing> implements Repository<HumanBeing> {
 
     private ZonedDateTime initDate;
     private int primaryKeyCounter = 0;
@@ -65,7 +67,7 @@ public class HumanBeingRepository extends LinkedHashMap<Integer, HumanBeing> imp
     @Override
     public List<HumanBeing> query(Specification<HumanBeing> specification) {
         List<HumanBeing> result = new ArrayList<>();
-        for(Map.Entry<Integer, HumanBeing> entry: this.entrySet()){
+        for(Map.Entry<String, HumanBeing> entry: this.entrySet()){
             if (specification.isSatisfiedBy(entry.getValue())){
                 result.add(entry.getValue());
             }
@@ -75,7 +77,7 @@ public class HumanBeingRepository extends LinkedHashMap<Integer, HumanBeing> imp
 
     @Override
     public List<HumanBeing> query() {
-        return query(new CompositeSpecification<HumanBeing>() {
+        return query(new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
                 return true;
@@ -98,7 +100,7 @@ public class HumanBeingRepository extends LinkedHashMap<Integer, HumanBeing> imp
                     "realHero",
                     "hasToothpick");
             columns.add(initDate.toString());
-            String[] header = columns.toArray(new String[columns.size()]);
+            String[] header = columns.toArray(new String[0]);
             writer.writeHeader(header);
             for(HumanBeing h: super.values()){
                 Map<String, String> fields = new HashMap<>();
@@ -134,13 +136,22 @@ public class HumanBeingRepository extends LinkedHashMap<Integer, HumanBeing> imp
                 Map<String, String> row = reader.read(header);
                 if (row == null) break;
                 row.remove(this.initDate.toString());
-                int id = Integer.parseInt(row.get("id"));
+                String primaryKey = row.get("primaryKey");
+                row.remove("primaryKey");
+                Integer id = Integer.parseInt(row.get("id"));
                 row.remove("id");
-                builder.create(id);
-                builder.build(row);
+                Date creationDate = DateFormat.getInstance().parse(("creationDate"));
+                row.remove("creationDate");
+                builder.create(primaryKey, id, creationDate);
+                for (Map.Entry<String, String> f: row.entrySet()){
+                    builder.build(f.getKey(), f.getValue());
+                }
                 this.insertEntity(builder.get());
             }
             reader.close();
+        }
+        catch (ParseException e){
+            return;
         }
         catch (IOException e){
             throw new RuntimeException(e.getMessage());

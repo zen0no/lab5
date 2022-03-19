@@ -6,7 +6,10 @@ package console.commands;
 
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
+import process.dataClasses.Car;
+import process.dataClasses.Coordinates;
 import process.dataClasses.HumanBeing;
+import process.exceptions.BuilderException;
 import process.repositories.Repository;
 import process.specifications.HumanBeingSpecifications;
 import process.utils.HumanBeingBuilder;
@@ -28,20 +31,60 @@ public class UpdateCommand extends AbstractCommand{
 
     @Override
     public boolean execute(List<String> args) throws ConsoleException {
-        if (!validateArguments(args)) {
-            throw new IncorrectArgumentConsoleException("Incorrect argument exception");
+        if (!validateArguments(args)){
+            throw new IncorrectArgumentConsoleException("Incorrect format for UpdateCommand");
         }
-        try {
-            int id = Integer.parseInt(args.get(0));
-            HumanBeing h = repository.query(HumanBeingSpecifications.Id(id)).get(0);
-            HumanBeingBuilder builder = new HumanBeingBuilder();
-            Map<String, String> fields = new HashMap<>();
-            for(String s: args.subList(1, args.size() - 1)){
-                fields.put(s.split("=")[0], s.split("=")[1]);
+        try
+        {
+            String key = args.get(0);
+            HumanBeing h = repository.query(HumanBeingSpecifications.PrimaryKey(key)).get(0);
+            if (h == null) {
+                System.out.println("HumanBeing with this key was not found");
+                return false;
             }
-            repository.updateEntity(builder.update(h, fields));
+            builder.update(h);
+
+            System.out.println("Enter element values:");
+            for(String field: HumanBeing.getFields())
+            {
+                Map<String, String> fieldArgs = new HashMap<>();
+                if (field.equals("car"))
+                {
+                    for (String carField : Car.getFields()) {
+                        System.out.println("HumanBeing.Car" + carField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(carField, scanner.nextLine());
+                        }
+                    }
+                }
+                if (field.equals("coordinates")) {
+                    for (String corField : Coordinates.getFields()) {
+                        System.out.println("HumanBeing.Coordinates" + corField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(corField, scanner.nextLine());
+                        }
+                    }
+
+                }
+                else
+                {
+                    System.out.println("HumanBeing." + field);
+                    if (scanner.hasNextLine())
+                    {
+                        fieldArgs.put("value", scanner.nextLine());
+                    }
+                }
+                builder.build(field, fieldArgs);
+            }
+            h = builder.get();
+            repository.insertEntity(h);
+            System.out.println("Added: " + h.toString());
             return true;
-        } catch (RuntimeException e) {
+
+        }
+
+
+        catch (BuilderException e){
             System.out.println(e.getMessage());
             return false;
         }

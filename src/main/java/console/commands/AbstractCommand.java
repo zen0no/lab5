@@ -1,13 +1,15 @@
 package console.commands;
 
-import process.repository.Repository;
+import process.utils.HumanBeingBuilder;
 
 import java.util.Scanner;
 
 public abstract class AbstractCommand implements Command {
-    private Scanner scanner;
+    protected Scanner scanner;
+    protected HumanBeingBuilder builder;
 
     public void setScanner(Scanner scanner){
         this.scanner = scanner;
     }
+    public void setBuilder(HumanBeingBuilder builder){this.builder = builder;}
 }

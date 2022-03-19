@@ -9,6 +9,8 @@ import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
 import process.dataClasses.HumanBeing;
 import process.repositories.Repository;
+import process.utils.Pair;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -22,13 +24,15 @@ public class ExecuteScriptCommand extends AbstractCommand{
      * Constructor of class
      */
 
-    private Repository<HumanBeing> repository;
-    private Set<String> fileNames;
+    private final Repository<HumanBeing> repository;
+    private final Set<Pair<String, Integer>> fileNames;
+    private final int level;
 
 
-    public ExecuteScriptCommand(Repository<HumanBeing> repository, Set<String> fileNames) {
+    public ExecuteScriptCommand(Repository<HumanBeing> repository,Set<Pair<String, Integer>> fileNames, int level) {
         this.repository = repository;
-
+        this.fileNames = fileNames;
+        this.level = level;
     }
 
     @Override
@@ -40,19 +44,19 @@ public class ExecuteScriptCommand extends AbstractCommand{
 
             String path = args.get(0);
 
-            if (fileNames.contains(path)){
-                throw new ConsoleException("This script already executed. Change it to avoid looping");
+            for (Pair<String, Integer> p: fileNames){
+                if(p.getLeft().equals(path) && p.getRight() < level )throw new ConsoleException("This script already executed. Change it to avoid looping");
             }
 
             File f = new File(args.get(0));
-            CommandManager tempManager = new CommandManager(new FileInputStream(f), this.repository);
+            CommandManager tempManager = new CommandManager(new FileInputStream(f), this.repository, builder);
             Map<String, Command> commands = new HashMap<>();
 
             Command c = new ClearCommand(repository);
             commands.put(c.getName(), c);
 
-            fileNames.add(path);
-            c = new ExecuteScriptCommand(repository, fileNames);
+            fileNames.add(new Pair<>(path, level));
+            c = new ExecuteScriptCommand(repository, fileNames, level + 1);
             commands.put(c.getName(), c);
 
             c = new ExitCommand(repository);

@@ -1,37 +1,48 @@
 package console;
 
+import console.commands.AbstractCommand;
 import console.commands.Command;
 import console.exceptions.CommandManagerExitException;
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
 import process.dataClasses.HumanBeing;
 import process.repositories.Repository;
+import process.utils.HumanBeingBuilder;
 
 import java.io.InputStream;
 import java.util.*;
 
 public class CommandManager {
-    private Scanner scanner;
-    private ArrayList<Command> executedCommands = new ArrayList<>();
-    private Map<String, Command> availableCommands = new HashMap<>(); {
-    };
-    private Repository<HumanBeing> repository;
+    private final Scanner scanner;
+    private final HumanBeingBuilder builder;
+    private final ArrayList<Command> executedCommands = new ArrayList<>();
+    private final Map<String, Command> availableCommands = new HashMap<>();
+    private final Repository<HumanBeing> repository;
 
     /**
-     * Constructor of class
-     * @param inputStream
-     * @param repository
+     * Class constructor
+     * @param inputStream Stream to command args read from
+     * @param repository Data storage
      */
-    public CommandManager(InputStream inputStream, Repository<HumanBeing> repository) {
+    public CommandManager(InputStream inputStream, Repository<HumanBeing> repository, HumanBeingBuilder builder) {
         this.scanner = new Scanner(inputStream);
         Command help = new Help();
         Command history = new History();
         this.repository = repository;
+        this.builder = builder;
         this.availableCommands.put(help.getName(), help);
         this.availableCommands.put(history.getName(), history);
     }
 
+    /**
+     * @param commands Commands which manager can execute
+     */
     public void addAvailableCommands(Map<String, Command> commands){
+        for (Map.Entry<String, Command> c: commands.entrySet())
+        {
+            c.getValue().setScanner(scanner);
+            c.getValue().setBuilder(builder);
+        }
         this.availableCommands.putAll(commands);
     }
 
@@ -65,7 +76,7 @@ public class CommandManager {
     /**
      * Class of command that shows information about all of available commands
      */
-    private class Help implements Command{
+    private class Help extends AbstractCommand{
         @Override
         public boolean execute(List<String> args) throws ConsoleException {
             if (!validateArguments(args)){
@@ -97,7 +108,7 @@ public class CommandManager {
     /**
      * Class of command that shows the last 11 commands
      */
-    private class History implements Command {
+    private class History extends AbstractCommand {
 
         @Override
         public boolean execute(List<String> args) throws ConsoleException {

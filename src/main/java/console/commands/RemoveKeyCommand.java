@@ -31,8 +31,8 @@ public class RemoveKeyCommand extends AbstractCommand {
             throw new IncorrectArgumentConsoleException("Incorrect argument exception for RemoveKeyCommandasd");
         }
         try {
-            int id = Integer.parseInt(args.get(0));
-            repository.removeEntity(repository.query(HumanBeingSpecifications.Id(id)));
+            String key = args.get(0);
+            repository.removeEntity(repository.query(HumanBeingSpecifications.PrimaryKey(key)));
             return true;
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

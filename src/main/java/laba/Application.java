@@ -3,22 +3,28 @@ package laba;
 import console.CommandManager;
 import console.commands.*;
 import process.repositories.HumanBeingRepository;
+import process.utils.HumanBeingBuilder;
+import process.utils.Pair;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Application {
     public static void main(String[] args){
         System.out.println("hiiiii henlooooo giv mi one cummund plis.......");
         HumanBeingRepository repository = new HumanBeingRepository();
-        CommandManager commandManager = new CommandManager(System.in, repository);
+        HumanBeingBuilder builder =  new HumanBeingBuilder();
+        builder.setIdCounter(repository.getPrimaryKeyCounter());
+        CommandManager commandManager = new CommandManager(System.in, repository, builder);
         Map<String, Command> commands = new HashMap<>();
 
         Command c = new ClearCommand(repository);
         commands.put(c.getName(), c);
 
-        c = new ExecuteScriptCommand(repository);
+        c = new ExecuteScriptCommand(repository, new HashSet<>(), 0);
         commands.put(c.getName(), c);
 
         c = new ExitCommand(repository);

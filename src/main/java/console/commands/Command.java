@@ -1,6 +1,8 @@
 package console.commands;
 
 import console.exceptions.ConsoleException;
+import process.repositories.Repository;
+import process.utils.HumanBeingBuilder;
 
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +30,8 @@ public interface Command {
     String getName();
 
     void setScanner(Scanner scanner);
+
+    void setBuilder(HumanBeingBuilder builder);
 
     boolean validateArguments(List<String> args) throws ConsoleException;
 

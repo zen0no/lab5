@@ -6,6 +6,8 @@ package console.commands;
 
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
+import process.dataClasses.Car;
+import process.dataClasses.Coordinates;
 import process.dataClasses.HumanBeing;
 import process.exceptions.BuilderException;
 import process.repositories.Repository;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InsertCommand extends AbstractCommand{
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     public InsertCommand(Repository<HumanBeing> repository) {
         this.repository = repository;
@@ -28,20 +30,51 @@ public class InsertCommand extends AbstractCommand{
         if (!validateArguments(args)){
             throw new IncorrectArgumentConsoleException("Incorrect format for InsertCommand");
         }
-        try{
+        try
+        {
             HumanBeingBuilder builder = new HumanBeingBuilder();
             builder.create(args.get(0));
-            Map<String, String> builderArgs = new HashMap<>();
-            for(String s: args){
-                String[] temp = s.split("=");
-                builderArgs.put(temp[0], temp[1]);
+
+            System.out.println("Enter element values:");
+            for(String field: HumanBeing.getFields())
+            {
+                Map<String, String> fieldArgs = new HashMap<>();
+                if (field.equals("car"))
+                {
+                    for (String carField : Car.getFields()) {
+                        System.out.println("HumanBeing.Car" + carField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(carField, scanner.nextLine());
+                        }
+                    }
+                }
+                if (field.equals("coordinates")) {
+                    for (String corField : Coordinates.getFields()) {
+                        System.out.println("HumanBeing.Coordinates" + corField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(corField, scanner.nextLine());
+                        }
+                    }
+
+                }
+                else
+                {
+                    System.out.println("HumanBeing." + field);
+                    if (scanner.hasNextLine())
+                    {
+                        fieldArgs.put("value", scanner.nextLine());
+                    }
+                }
+                builder.build(field, fieldArgs);
             }
-            builder.build(builderArgs);
             HumanBeing h = builder.get();
             repository.insertEntity(h);
             System.out.println("Added: " + h.toString());
             return true;
+
         }
+
+
         catch (BuilderException e){
             System.out.println(e.getMessage());
             return false;
@@ -50,10 +83,7 @@ public class InsertCommand extends AbstractCommand{
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
-        for(String s: args){
-            if (!s.contains("=")) return false;
-        }
-        return true;
+        return args.size() == 1;
     }
 
     @Override

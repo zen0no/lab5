@@ -6,6 +6,8 @@ package console.commands;
 
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
+import process.dataClasses.Car;
+import process.dataClasses.Coordinates;
 import process.dataClasses.HumanBeing;
 import process.repositories.Repository;
 import process.specifications.HumanBeingSpecifications;
@@ -34,18 +36,54 @@ public class ReplaceIfGreaterCommand extends AbstractCommand {
             throw new IncorrectArgumentConsoleException("Incorrect argument exception");
         }
         try {
-            int id = Integer.parseInt(args.get(0));
-            HumanBeing h = repository.query(HumanBeingSpecifications.Id(id)).get(0);
-            HumanBeingBuilder builder = new HumanBeingBuilder();
-            Map<String, String> fields = new HashMap<>();
-            for (String s : args.subList(1, args.size())) {
-                fields.put(s.split("=")[0], s.split("=")[1]);
+
+            String key = args.get(0);
+            HumanBeing h = repository.query(HumanBeingSpecifications.PrimaryKey(key)).get(0);
+            if (h == null){
+                System.out.println("");
+                return false;
             }
-            for (Map.Entry<String, String> entry : fields.entrySet()) {
-                if (h.compareToMap(entry) < 0) repository.updateEntity(builder.update(h, fields));
+
+            System.out.println("Enter element values:");
+            for(String field: HumanBeing.getFields())
+            {
+                Map<String, String> fieldArgs = new HashMap<>();
+                if (field.equals("car"))
+                {
+                    for (String carField : Car.getFields()) {
+                        System.out.println("HumanBeing.Car" + carField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(carField, scanner.nextLine());
+                        }
+                    }
+                }
+                if (field.equals("coordinates")) {
+                    for (String corField : Coordinates.getFields()) {
+                        System.out.println("HumanBeing.Coordinates" + corField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(corField, scanner.nextLine());
+                        }
+                    }
+
+                }
+                else
+                {
+                    System.out.println("HumanBeing." + field);
+                    if (scanner.hasNextLine())
+                    {
+                        fieldArgs.put("value", scanner.nextLine());
+                    }
+                }
+                builder.build(field, fieldArgs);
             }
+            HumanBeing updated = builder.get();
+            if (updated.compareTo(h) > 0) repository.insertEntity(h);
+            System.out.println("Added: " + h.toString());
             return true;
-        } catch (RuntimeException e) {
+
+        }
+
+        catch (RuntimeException e){
             System.out.println(e.getMessage());
             return false;
         }
@@ -63,15 +101,7 @@ public class ReplaceIfGreaterCommand extends AbstractCommand {
     }
 
     @Override
-    public boolean validateArguments(List<String> args) throws ConsoleException {
-        if (args.size() == 2) {
-            try {
-                Integer.parseInt(args.get(0));
-                return args.get(1).contains("=");
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
+    public boolean validateArguments(List<String> args){
+        return args.size() == 1;
     }
 }
