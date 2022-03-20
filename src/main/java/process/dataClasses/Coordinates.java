@@ -2,13 +2,14 @@ package process.dataClasses;
 
 import process.exceptions.IllegalModelFieldException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
 public class Coordinates implements Comparable<Coordinates>{
 
-    private static final Set<String> fields = Set.of("x", "y");
+    private static final List<String> fields = List.of("x", "y");
 
     private final long x; // max: 673
     private final long y;
@@ -24,7 +25,7 @@ public class Coordinates implements Comparable<Coordinates>{
     public static Coordinates parseCoordinates(Map<String, String> args) {
         try {
 
-            if (!fields.equals(args.keySet())) throw new IllegalModelFieldException("Can't parse coordinates");
+            if (!fields.containsAll(args.keySet()) && args.keySet().containsAll(fields)) throw new IllegalModelFieldException("Can't parse coordinates");
             long x = Long.parseLong(args.get("x"));
             long y = Long.parseLong(args.get("y"));
             return new Coordinates(x, y);
@@ -53,7 +54,7 @@ public class Coordinates implements Comparable<Coordinates>{
         return y;
     }
 
-    public static Set<String> getFields() {
+    public static List<String> getFields() {
         return fields;
     }
 

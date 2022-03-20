@@ -1,15 +1,13 @@
 package process.dataClasses;
 
 import process.exceptions.IllegalModelFieldException;
+import process.exceptions.ModelFieldException;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Car implements Comparable<Car>{
 
-    private static final Set<String> fields = Set.of("cool");
+    private static final List<String> fields = List.of("cool");
     private boolean cool;
 
     public Car(boolean cool){
@@ -17,7 +15,7 @@ public class Car implements Comparable<Car>{
     }
     public Car() {}
 
-    public static Car parseCar(Map<String, String> args) throws IllegalArgumentException{
+    public static Car parseCar(Map<String, String> args) throws ModelFieldException {
         try {
             for (Map.Entry<String, String> f: args.entrySet()){
                 if (!getFields().contains(f.getKey())) throw new IllegalModelFieldException("No such field: Car." + f.getKey());
@@ -26,7 +24,7 @@ public class Car implements Comparable<Car>{
                 String s = args.get("cool");
                 if ("true".equals(s.toLowerCase(Locale.ROOT))) return new Car(true);
                 else if ("false".equals(s.toLowerCase(Locale.ROOT))) return new Car(false);
-                else throw new IllegalArgumentException("invalid value for Car.cool: \"" + s + "\"");
+                else throw new IllegalModelFieldException("invalid value for Car.cool: \"" + s + "\"");
             }
 
             return new Car();
@@ -43,7 +41,7 @@ public class Car implements Comparable<Car>{
         else throw new IllegalArgumentException("incorrect format of string");
     }
 
-    public static Set<String> getFields() {
+    public static List<String> getFields() {
         return fields;
     }
 

@@ -8,6 +8,9 @@ import process.specifications.base.CompositeSpecification;
 import process.specifications.base.Specification;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
@@ -28,16 +31,22 @@ public class HumanBeingRepository extends LinkedHashMap<String, HumanBeing> impl
         super();
         try {
             String path;
-            path = System.getenv("filename");
-                if (path == null) path = "C:/Different/data.csv";
+            path = System.getProperty("filename");
 
-            csvFile = new File(path);
-            if (!csvFile.createNewFile()) load();
-            else {
+            if (path == null) path ="data.csv";
+            Path filePath = Paths.get(System.getProperty("user.dir"), path);
+            csvFile = filePath.toFile();
+            if (!Files.exists(filePath)){
+                Files.createFile(filePath);
                 initDate = ZonedDateTime.now();
             }
+            else{
+                //load();
+                initDate = ZonedDateTime.now();
+            }
+
         }
-        catch (IOException e){
+        catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
     }
