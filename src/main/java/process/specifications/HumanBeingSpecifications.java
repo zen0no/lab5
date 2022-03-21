@@ -6,8 +6,15 @@ import process.specifications.base.Specification;
 
 import java.util.Date;
 
+/**
+ * Class, contains specification for work with HumanBeing
+ */
 public class HumanBeingSpecifications {
 
+    /**
+     * @param id
+     * @return Specification to check id
+     */
     public static Specification<HumanBeing> Id(int id){
         return new CompositeSpecification<>() {
             @Override
@@ -17,6 +24,11 @@ public class HumanBeingSpecifications {
         };
     }
 
+
+    /**
+     * @param name
+     * @return Specification to check name
+     */
     public static Specification<HumanBeing> Name(String name){
         return new CompositeSpecification<>() {
             @Override
@@ -26,6 +38,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param cords
+     * @return Specification to check coordinates
+     */
     public static Specification<HumanBeing> Coordinates(Coordinates cords){
         return new CompositeSpecification<>() {
             @Override
@@ -35,6 +51,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param date
+     * @return to check creation date
+     */
     public static Specification<HumanBeing> CreationDate(Date date){
         return new CompositeSpecification<>() {
             @Override
@@ -44,6 +64,11 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param start
+     * @param end
+     * @return Specification to check if creation date was in certain time interval
+     */
     public static Specification<HumanBeing> CreatedInPeriod(Date start, Date end){
         return new CompositeSpecification<>() {
             @Override
@@ -53,6 +78,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param has
+     * @return Specification to check hasToothpick
+     */
     public static Specification<HumanBeing> HasToothpick(boolean has){
         return new CompositeSpecification<>() {
             @Override
@@ -62,6 +91,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param realHero
+     * @return Specification to check real hero
+     */
     public static Specification<HumanBeing> RealHero(boolean realHero){
         return new CompositeSpecification<>() {
             @Override
@@ -71,6 +104,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param speed
+     * @return Specification to check if impact speed under value
+     */
     public static Specification<HumanBeing> ImpactSpeedUnder(int speed){
         return new CompositeSpecification<>() {
             @Override
@@ -80,6 +117,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param speed
+     * @return Specification to check impact speed
+     */
     public static Specification<HumanBeing> ImpactSpeed(int speed){
         return new CompositeSpecification<>() {
             @Override
@@ -89,6 +130,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param weaponType
+     * @return Specification to check weaponType
+     */
     public static Specification<HumanBeing> WeaponType(WeaponType weaponType){
         return new CompositeSpecification<>() {
             @Override
@@ -98,6 +143,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param mood
+     * @return Specification to check mood
+     */
     public static Specification<HumanBeing> Mood(Mood mood){
         return new CompositeSpecification<>() {
             @Override
@@ -107,6 +156,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param car
+     * @return specification to check car
+     */
     public static Specification<HumanBeing> Car(Car car){
         return new CompositeSpecification<>() {
             @Override
@@ -116,6 +169,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param o
+     * @return Specification to check humanbeing with lower value
+     */
     public static Specification<HumanBeing> Lower(HumanBeing o){
         return new CompositeSpecification<>() {
             @Override
@@ -125,6 +182,10 @@ public class HumanBeingSpecifications {
         };
     }
 
+    /**
+     * @param key
+     * @return Specification to check primary key
+     */
     public static Specification<HumanBeing> PrimaryKey(String key){
         return new CompositeSpecification<>() {
             @Override

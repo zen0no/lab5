@@ -18,10 +18,18 @@ public enum Mood implements Comparable<Mood>{
         this.description = s;
     }
 
+    /**
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param s string to parse mood from
+     * @return mood
+     * @throws IllegalModelFieldException
+     */
     public static Mood parseMood(String s) throws IllegalModelFieldException {
         if (s == null){
             return null;

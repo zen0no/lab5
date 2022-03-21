@@ -5,16 +5,31 @@ import process.exceptions.ModelFieldException;
 
 import java.util.*;
 
+/**
+ * Data class
+ */
 public class Car implements Comparable<Car>{
 
     private static final List<String> fields = List.of("cool");
     private boolean cool;
 
+    /**
+     * @param cool boolean
+     */
     public Car(boolean cool){
         this.cool = cool;
     }
+
+    /**
+     *  Constructor overload with no params
+     */
     public Car() {}
 
+    /**
+     * @param args map of car fields
+     * @return car parsed from map
+     * @throws ModelFieldException
+     */
     public static Car parseCar(Map<String, String> args) throws ModelFieldException {
         try {
             for (Map.Entry<String, String> f: args.entrySet()){
@@ -34,6 +49,11 @@ public class Car implements Comparable<Car>{
         }
     }
 
+    /**
+     * @param s string to parse car object from
+     * @return car parsed from string
+     * @throws IllegalArgumentException
+     */
     public static Car parseCar(String s) throws IllegalArgumentException{
         if (s == null) return new Car();
         if ("true".equals(s.toLowerCase(Locale.ROOT))) return new Car(true);
@@ -41,6 +61,9 @@ public class Car implements Comparable<Car>{
         else throw new IllegalArgumentException("incorrect format of string");
     }
 
+    /**
+     * @return list of car fields
+     */
     public static List<String> getFields() {
         return fields;
     }
@@ -53,10 +76,18 @@ public class Car implements Comparable<Car>{
         return cool == car.cool;
     }
 
+    /**
+     * cool getter
+     * @return boolean
+     */
     public boolean isCool() {
         return cool;
     }
 
+    /**
+     * cool setter
+     * @param cool boolean
+     */
     public void setCool(Boolean cool){
         this.cool = cool;
     }

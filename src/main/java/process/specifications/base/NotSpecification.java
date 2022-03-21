@@ -1,5 +1,9 @@
 package process.specifications.base;
 
+/**
+ * Negative specification
+ * @param <T>
+ */
 public class NotSpecification<T> extends CompositeSpecification<T>{
     private final Specification<T> specification;
 

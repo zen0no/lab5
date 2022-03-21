@@ -1,5 +1,9 @@
 package process.specifications.base;
 
+/**
+ * And specification
+ * @param <T>
+ */
 public class AndSpecification<T> extends CompositeSpecification<T>{
     private final Specification<T> left;
     private final Specification<T> right;

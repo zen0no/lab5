@@ -17,10 +17,18 @@ public enum WeaponType implements Comparable<WeaponType>{
         this.description = description;
     }
 
+    /**
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param s string to parse weaponType from
+     * @return weaponType
+     * @throws IllegalModelFieldException
+     */
     public static WeaponType parseWeaponType(String s) throws IllegalModelFieldException {
         if (s == null) return null;
         for(WeaponType w: EnumSet.allOf(WeaponType.class)){

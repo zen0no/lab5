@@ -12,6 +12,9 @@ import process.utils.HumanBeingBuilder;
 import java.io.InputStream;
 import java.util.*;
 
+/**
+ * Class for interacting with user
+ */
 public class CommandManager {
     private final Scanner scanner;
     private final ArrayList<Command> executedCommands = new ArrayList<>();
@@ -47,7 +50,6 @@ public class CommandManager {
      * Method to read InputStream
      */
 
-
     public void read(){
         while (scanner.hasNextLine()){
             try {
@@ -71,7 +73,7 @@ public class CommandManager {
     }
 
     /**
-     * Class of command that shows information about all of available commands
+     * Abstract command child class. Can show information about all of available commands
      */
     private class Help extends AbstractCommand{
         @Override
@@ -123,7 +125,7 @@ public class CommandManager {
     }
 
     /**
-     * Class of command that shows the last 11 commands
+     * Abstract command child class. Can show latest 11 executed commands
      */
     private class History extends AbstractCommand {
 

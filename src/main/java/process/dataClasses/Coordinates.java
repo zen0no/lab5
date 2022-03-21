@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Data class
+ */
 public class Coordinates implements Comparable<Coordinates>{
 
     private static final List<String> fields = List.of("x", "y");
@@ -14,6 +17,11 @@ public class Coordinates implements Comparable<Coordinates>{
     private final long x; // max: 673
     private final long y;
 
+    /**
+     * @param x long x-axis coordinate. Max value - 673
+     * @param y long y-axis coordinate.
+     * @throws IllegalModelFieldException
+     */
     public Coordinates(long x, long y) throws IllegalModelFieldException
     {
         if (Math.abs(x) > 673) throw new IllegalModelFieldException("Abs of x is more than maximum possible value");
@@ -22,6 +30,10 @@ public class Coordinates implements Comparable<Coordinates>{
         this.y = y;
     }
 
+    /**
+     * @param args map of coordinates fields
+     * @return coordinates
+     */
     public static Coordinates parseCoordinates(Map<String, String> args) {
         try {
 
@@ -37,6 +49,10 @@ public class Coordinates implements Comparable<Coordinates>{
         }
     }
 
+    /**
+     * @param s string to parse coordinates from
+     * @return coordinates
+     */
     public static Coordinates parseCoordinates(String s){
         String[] args = s.split(":");
         try {
@@ -49,14 +65,25 @@ public class Coordinates implements Comparable<Coordinates>{
     }
 
 
+    /**
+     * x getter
+     * @return x
+     */
     public long getX() {
         return x;
     }
 
+    /**
+     * y getter
+     * @return y
+     */
     public long getY() {
         return y;
     }
 
+    /**
+     * @return list of coordinates fields
+     */
     public static List<String> getFields() {
         return fields;
     }

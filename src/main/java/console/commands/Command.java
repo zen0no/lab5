@@ -11,8 +11,8 @@ public interface Command {
 
     /**
      * Returns "true" if command completed successfully, returns "false" if command failed
-     * @param args
-     * @return
+     * @param args params for command
+     * @return true if executed successfully, false otherwise
      * @throws ConsoleException
      */
     boolean execute(List<String> args) throws ConsoleException;
@@ -25,12 +25,22 @@ public interface Command {
 
     /**
      * Method to get name of command
-     * @return
+     * @return command's name
      */
     String getName();
 
+
+    /**
+     * @param scanner input reader
+     */
     void setScanner(Scanner scanner);
 
+
+    /**
+     * @param args
+     * @return true if args are valid false otherwise
+     * @throws ConsoleException
+     */
     boolean validateArguments(List<String> args) throws ConsoleException;
 
 }

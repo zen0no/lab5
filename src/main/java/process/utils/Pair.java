@@ -2,6 +2,11 @@ package process.utils;
 
 import java.util.Objects;
 
+/**
+ * Simple data structure
+ * @param <K>
+ * @param <V>
+ */
 public class Pair<K, V>{
     private K left;
     private V right;

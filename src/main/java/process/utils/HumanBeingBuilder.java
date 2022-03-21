@@ -10,17 +10,25 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Class for building HumanBeing instances
+ */
 public class HumanBeingBuilder {
     HumanBeing currentHuman;
     private static int idCounter = 0;
 
 
-
+    /**
+     * Creates new instance of HumanBeing
+     * @param primaryKey
+     * @throws BuilderException if builder already building
+     */
     public void create(String primaryKey) throws BuilderException {
         idCounter++;
         if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, idCounter);
         else throw new BuilderIsBusyException();
     }
+
 
     public void create(String primaryKey, int id, Date creationDate) throws BuilderException {
         if (id > idCounter){
@@ -33,16 +41,31 @@ public class HumanBeingBuilder {
 
     }
 
+    /**
+     * Creates instance of HumanBeing without increasing counter
+     */
     public void createTemp(){
         if (currentHuman == null) currentHuman = new HumanBeing("", 0);
         else throw new BuilderIsBusyException();
     }
 
+    /**
+     * Updates entity
+     * @param entity entity to update
+     * @throws BuilderException if builder already building
+     * @throws IllegalModelFieldException
+     */
     public void update(HumanBeing entity) throws BuilderException, IllegalModelFieldException{
         if (currentHuman == null) currentHuman = entity;
         else throw  new BuilderException("Builder is busy");
     }
 
+    /**
+     * Builds fields
+     * @param fieldName
+     * @param fieldValue
+     * @throws BuilderException
+     */
     public void build(String fieldName, Map<String, String> fieldValue) throws BuilderException{
        try{
             if (!HumanBeing.getFields().contains(fieldName))
@@ -89,6 +112,11 @@ public class HumanBeingBuilder {
         }
     }
 
+    /**
+     * Get completed instance of HumanBeing
+     * @return
+     * @throws BuilderException
+     */
     public HumanBeing get() throws BuilderException{
         for (String field: HumanBeing.getFields()) if (!currentHuman.getCurrentFields().contains(field))
             throw new BuilderException("HumanBeing.%s: field must be specified".formatted(field));
@@ -101,12 +129,20 @@ public class HumanBeingBuilder {
         HumanBeingBuilder.idCounter = idCounter;
     }
 
+    /**
+     * Method to correct parsing of boolean from string
+     * @param s
+     * @return
+     */
     private Boolean parseBoolean(String s){
         if ("true".equals(s.toLowerCase(Locale.ROOT))) return true;
         if ("false".equals(s.toLowerCase(Locale.ROOT))) return false;
         return null;
     }
 
+    /**
+     * Clears instance, which builder working on
+     */
     public void clear(){
         this.currentHuman = null;
     }

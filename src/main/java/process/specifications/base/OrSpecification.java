@@ -1,5 +1,9 @@
 package process.specifications.base;
 
+/**
+ * Or specification
+ * @param <T>
+ */
 public class OrSpecification<T> extends CompositeSpecification<T> {
     private final Specification<T> left;
     private final Specification<T> right;

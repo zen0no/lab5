@@ -1,5 +1,9 @@
 package process.specifications.base;
 
+/**
+ * Abstract specification. Basic specification implementation
+ * @param <T> entities type
+ */
 public abstract class CompositeSpecification<T> implements Specification<T> {
     public abstract boolean isSatisfiedBy(T candidate);
 

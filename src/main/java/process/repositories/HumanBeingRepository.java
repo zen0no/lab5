@@ -25,6 +25,10 @@ import process.utils.HumanBeingBuilder;
 
 import javax.swing.text.DateFormatter;
 
+/**
+ * Data storage class. Implements repository and extends linkedhashmap
+ * Contains instances of HumanBeing
+ */
 public class HumanBeingRepository extends LinkedHashMap<String, HumanBeing> implements Repository<HumanBeing> {
 
     private ZonedDateTime initDate;
@@ -33,6 +37,9 @@ public class HumanBeingRepository extends LinkedHashMap<String, HumanBeing> impl
     private ICsvMapWriter writer;
 
 
+    /**
+     * Constructor. Loads data from file, if it exists
+     */
     public HumanBeingRepository(){
         super();
         String path;
@@ -131,6 +138,9 @@ public class HumanBeingRepository extends LinkedHashMap<String, HumanBeing> impl
         }
     }
 
+    /**
+     * Method to load collection from file
+     */
     private void load(){
         ICsvMapReader reader;
         HumanBeingBuilder builder = new HumanBeingBuilder();
