@@ -9,10 +9,14 @@ import console.exceptions.IncorrectArgumentConsoleException;
 import process.dataClasses.HumanBeing;
 import process.repositories.Repository;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 public class InfoCommand extends AbstractCommand{
-    private Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     public InfoCommand(Repository<HumanBeing> repository) {
         this.repository = repository;
@@ -26,7 +30,8 @@ public class InfoCommand extends AbstractCommand{
 
         try{
             System.out.println("Collection type: " + repository.getTypeName());
-            System.out.println("Initialization date: " + repository.getInitDate());
+            ZonedDateTime d = repository.getInitDate();
+            System.out.println("Initialization date: " + repository.getInitDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT).withLocale(Locale.ENGLISH)));
             System.out.println("Collection size: " + repository.query().size());
             return true;
         }

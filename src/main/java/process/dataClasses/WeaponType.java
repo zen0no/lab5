@@ -1,5 +1,7 @@
 package process.dataClasses;
 
+import process.exceptions.IllegalModelFieldException;
+
 import java.util.EnumSet;
 
 public enum WeaponType implements Comparable<WeaponType>{
@@ -19,13 +21,13 @@ public enum WeaponType implements Comparable<WeaponType>{
         return description;
     }
 
-    public static WeaponType parseWeaponType(String s) throws IllegalArgumentException{
+    public static WeaponType parseWeaponType(String s) throws IllegalModelFieldException {
         if (s == null) return null;
         for(WeaponType w: EnumSet.allOf(WeaponType.class)){
             if (w.getDescription().equals(s)) return w;
         }
 
-        throw new IllegalArgumentException("can't parse weaponType from \"" + s + "\"");
+        throw new IllegalModelFieldException("can't parse weaponType from \"" + s + "\"");
     }
 
     @Override

@@ -12,7 +12,7 @@ import process.repositories.Repository;
 import java.util.List;
 
 public class SaveCommand extends AbstractCommand {
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     public SaveCommand(Repository<HumanBeing> repository) {
         this.repository = repository;

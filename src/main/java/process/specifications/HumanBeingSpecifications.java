@@ -120,7 +120,7 @@ public class HumanBeingSpecifications {
         return new CompositeSpecification<>() {
             @Override
             public boolean isSatisfiedBy(HumanBeing candidate) {
-                return o.compareTo(candidate) > 0;
+                return o.compareTo(candidate) < 0;
             }
         };
     }

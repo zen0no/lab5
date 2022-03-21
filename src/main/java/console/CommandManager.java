@@ -14,7 +14,6 @@ import java.util.*;
 
 public class CommandManager {
     private final Scanner scanner;
-    private final HumanBeingBuilder builder;
     private final ArrayList<Command> executedCommands = new ArrayList<>();
     private final Map<String, Command> availableCommands = new HashMap<>();
     private final Repository<HumanBeing> repository;
@@ -24,12 +23,11 @@ public class CommandManager {
      * @param inputStream Stream to command args read from
      * @param repository Data storage
      */
-    public CommandManager(InputStream inputStream, Repository<HumanBeing> repository, HumanBeingBuilder builder) {
+    public CommandManager(InputStream inputStream, Repository<HumanBeing> repository) {
         this.scanner = new Scanner(inputStream);
         Command help = new Help();
         Command history = new History();
         this.repository = repository;
-        this.builder = builder;
         this.availableCommands.put(help.getName(), help);
         this.availableCommands.put(history.getName(), history);
     }
@@ -41,7 +39,6 @@ public class CommandManager {
         for (Map.Entry<String, Command> c: commands.entrySet())
         {
             c.getValue().setScanner(scanner);
-            c.getValue().setBuilder(builder);
         }
         this.availableCommands.putAll(commands);
     }
@@ -82,8 +79,28 @@ public class CommandManager {
             if (!validateArguments(args)){
                 throw new IncorrectArgumentConsoleException("Command help has no arguments");
             }
+            System.out.println("HumanBeing fields:");
+            System.out.println("""
+                    name: string:
+                    coordinates.x: integer (max: 673)
+                    coordinates.y: integer
+                    speed: integer
+                    car.cool: boolean
+                    realHero: boolean
+                    hasToothpick: boolean
+                    weaponType:   AXE,
+                            PISTOL,
+                            KNIFE,
+                            BAT;
+                    mood:   SADNESS,
+                            SORROW,
+                            GLOOM,
+                            APATHY,
+                            FRENZY;
+                    """);
+            System.out.println("------------------------------------");
             for (Map.Entry<String, Command> c: availableCommands.entrySet()){
-                System.out.println(c.getKey());
+                System.out.println("-" + c.getKey());
                 System.out.println(c.getValue().getDescription());
             }
             return true;

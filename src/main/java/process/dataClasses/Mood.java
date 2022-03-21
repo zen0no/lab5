@@ -1,5 +1,7 @@
 package process.dataClasses;
 
+import process.exceptions.IllegalModelFieldException;
+
 import java.util.EnumSet;
 
 public enum Mood implements Comparable<Mood>{
@@ -20,7 +22,7 @@ public enum Mood implements Comparable<Mood>{
         return description;
     }
 
-    public static Mood parseMood(String s) throws IllegalArgumentException{
+    public static Mood parseMood(String s) throws IllegalModelFieldException {
         if (s == null){
             return null;
         }
@@ -28,7 +30,7 @@ public enum Mood implements Comparable<Mood>{
                 EnumSet.allOf(Mood.class)) {
             if (m.getDescription().equals(s)) return m;
         }
-        throw new IllegalArgumentException("can't parse mood from \"" + s + "\"");
+        throw new IllegalModelFieldException("can't parse mood from \"" + s + "\"");
     }
 
 

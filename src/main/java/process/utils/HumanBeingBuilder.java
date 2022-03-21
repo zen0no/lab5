@@ -2,6 +2,7 @@ package process.utils;
 
 import process.dataClasses.*;
 import process.exceptions.BuilderException;
+import process.exceptions.BuilderIsBusyException;
 import process.exceptions.IllegalModelFieldException;
 import process.exceptions.ModelFieldException;
 
@@ -11,22 +12,30 @@ import java.util.Map;
 
 public class HumanBeingBuilder {
     HumanBeing currentHuman;
-    private int idCounter = 0;
+    private static int idCounter = 0;
+
+
 
     public void create(String primaryKey) throws BuilderException {
-        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, idCounter);
-        else throw new BuilderException("Builder is busy");
         idCounter++;
+        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, idCounter);
+        else throw new BuilderIsBusyException();
     }
 
     public void create(String primaryKey, int id, Date creationDate) throws BuilderException {
-        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, id, creationDate);
-        else throw new BuilderException("Builder is busy");
-
         if (id > idCounter){
             idCounter = id;
         }
+        idCounter++;
+        if (currentHuman == null) currentHuman = new HumanBeing(primaryKey, id, creationDate);
+        else throw new BuilderIsBusyException();
 
+
+    }
+
+    public void createTemp(){
+        if (currentHuman == null) currentHuman = new HumanBeing("", 0);
+        else throw new BuilderIsBusyException();
     }
 
     public void update(HumanBeing entity) throws BuilderException, IllegalModelFieldException{
@@ -52,6 +61,9 @@ public class HumanBeingBuilder {
        catch (ModelFieldException e){
            throw new BuilderException("Build error: " + e.getMessage());
        }
+       catch (NumberFormatException e){
+           throw new BuilderException("can't parse number from value");
+       }
     }
 
     public void build(String fieldName, String fieldValue) throws ModelFieldException, BuilderException{
@@ -63,14 +75,17 @@ public class HumanBeingBuilder {
             if (fieldName.equals("name")) currentHuman.setName(fieldValue);
             if (fieldName.equals("coordinates")) currentHuman.setCoordinates(Coordinates.parseCoordinates(fieldValue));
             if (fieldName.equals("realHero")) currentHuman.setRealHero(parseBoolean(fieldValue));
-            if (fieldName.equals("hasToothPick")) currentHuman.setHasToothpick(parseBoolean(fieldValue));
+            if (fieldName.equals("hasToothpick")) currentHuman.setHasToothpick(parseBoolean(fieldValue));
             if (fieldName.equals("impactSpeed")) currentHuman.setImpactSpeed(Integer.parseInt(fieldValue));
             if (fieldName.equals("mood")) currentHuman.setMood(Mood.parseMood(fieldValue));
             if (fieldName.equals("weaponType")) currentHuman.setWeaponType(WeaponType.parseWeaponType(fieldValue));
-            if (fieldName.equals("Car")) currentHuman.setCar(Car.parseCar(fieldValue));
+            if (fieldName.equals("car")) currentHuman.setCar(Car.parseCar(fieldValue));
         }
         catch (ModelFieldException e){
             throw new BuilderException("Build error: " + e.getMessage());
+        }
+        catch (NumberFormatException e){
+            throw new BuilderException("can't parse number from value");
         }
     }
 
@@ -82,13 +97,17 @@ public class HumanBeingBuilder {
         return temp;
     }
 
-    public void setIdCounter(int idCounter) {
-        this.idCounter = idCounter;
+    public static void setIdCounter(int idCounter) {
+        HumanBeingBuilder.idCounter = idCounter;
     }
 
     private Boolean parseBoolean(String s){
         if ("true".equals(s.toLowerCase(Locale.ROOT))) return true;
         if ("false".equals(s.toLowerCase(Locale.ROOT))) return false;
         return null;
+    }
+
+    public void clear(){
+        this.currentHuman = null;
     }
 }

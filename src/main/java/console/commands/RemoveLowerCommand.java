@@ -6,15 +6,23 @@ package console.commands;
 
 import console.exceptions.ConsoleException;
 import console.exceptions.IncorrectArgumentConsoleException;
+import process.dataClasses.Car;
+import process.dataClasses.Coordinates;
 import process.dataClasses.HumanBeing;
+import process.exceptions.BuilderException;
+import process.exceptions.BuilderIsBusyException;
+import process.exceptions.ModelFieldException;
 import process.repositories.Repository;
 import process.specifications.HumanBeingSpecifications;
+import process.utils.HumanBeingBuilder;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RemoveLowerCommand extends AbstractCommand {
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
+    private final HumanBeingBuilder builder = new HumanBeingBuilder();
 
     /**
      * Constructor of class
@@ -29,11 +37,53 @@ public class RemoveLowerCommand extends AbstractCommand {
             throw new IncorrectArgumentConsoleException("Incorrect argument exception");
         }
         try {
-            int id = Integer.parseInt(args.get(0));
-            HumanBeing h = repository.query(HumanBeingSpecifications.Id(id)).get(0);
+            builder.createTemp();
+            System.out.println("Enter element values:");
+            for (String field : HumanBeing.getFields()) {
+
+                Map<String, String> fieldArgs = new HashMap<>();
+                if (field.equals("car")) {
+                    for (String carField : Car.getFields()) {
+                        System.out.println("HumanBeing.car." + carField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(carField, scanner.nextLine());
+                        }
+                    }
+                } else if (field.equals("coordinates")) {
+                    for (String corField : Coordinates.getFields()) {
+                        System.out.println("HumanBeing.coordinates." + corField + ":");
+                        if (scanner.hasNextLine()) {
+                            fieldArgs.put(corField, scanner.nextLine());
+                        }
+                    }
+
+                } else {
+                    System.out.println("HumanBeing." + field);
+                    if (scanner.hasNextLine()) {
+                        fieldArgs.put("value", scanner.nextLine());
+                    }
+                }
+                try {
+                    builder.build(field, fieldArgs);
+                } catch (ModelFieldException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+            }
+            HumanBeing h = builder.get();
+            System.out.println("Deleted entities:");
+            List<HumanBeing> toDelete = repository.query(HumanBeingSpecifications.Lower(h));
+            for (HumanBeing human: toDelete){
+                System.out.println(human.toString());
+            }
             repository.removeEntity(repository.query(HumanBeingSpecifications.Lower(h)));
             return true;
-        } catch (RuntimeException e) {
+        }
+        catch (BuilderIsBusyException e){
+            builder.clear();
+            return false;
+        }
+        catch (BuilderException e){
             System.out.println(e.getMessage());
             return false;
         }
@@ -46,19 +96,11 @@ public class RemoveLowerCommand extends AbstractCommand {
 
     @Override
     public String getName() {
-        return "remove_lover";
+        return "remove_lower";
     }
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
-        if (args.size() == 1) {
-            try {
-                Integer.parseInt(args.get(0));
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
+        return args.size() == 0;
     }
 }

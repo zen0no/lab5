@@ -18,7 +18,7 @@ public class Application {
         HumanBeingRepository repository = new HumanBeingRepository();
         HumanBeingBuilder builder =  new HumanBeingBuilder();
         builder.setIdCounter(repository.getPrimaryKeyCounter());
-        CommandManager commandManager = new CommandManager(System.in, repository, builder);
+        CommandManager commandManager = new CommandManager(System.in, repository);
         Map<String, Command> commands = new HashMap<>();
 
         Command c = new ClearCommand(repository);

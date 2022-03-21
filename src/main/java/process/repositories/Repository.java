@@ -17,5 +17,6 @@ public interface Repository<T> {
     ZonedDateTime getInitDate();
     String getTypeName();
     int getPrimaryKeyCounter();
+    boolean containsPrimaryKey(String key);
 
 }

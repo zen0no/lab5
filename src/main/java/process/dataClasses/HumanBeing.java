@@ -4,6 +4,7 @@ import process.exceptions.IllegalModelFieldException;
 import process.exceptions.ModelFieldException;
 import process.exceptions.NullFieldException;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class HumanBeing implements Comparable<HumanBeing>{
@@ -86,7 +87,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
         return weaponType;
     }
 
-    public boolean isHasToothpick() {
+    public Boolean isHasToothpick() {
         return hasToothpick;
     }
 
@@ -225,6 +226,25 @@ public class HumanBeing implements Comparable<HumanBeing>{
             throw new IllegalModelFieldException("Incorrect value for HumanBeing.hasToothpick");
         }
         return 0;
+    }
+
+    public String show(){
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy, hh:mm a", Locale.ENGLISH);
+        return """
+                %s:
+                    id: %s;
+                    creationDate: %s;
+                    name: %s;
+                    coordinates: %s;
+                    impactSpeed: %s;
+                    car: %s;
+                    realHero: %s;
+                    hasToothpick: %s;
+                    weaponType: %s;
+                    mood: %s;
+                """.formatted(primaryKey, String.valueOf(id), formatter.format(creationDate), name, coordinates.toString(),
+                String.valueOf(impactSpeed), car.toString(), String.valueOf(realHero), String.valueOf(hasToothpick),
+                weaponType.toString(), mood.toString());
     }
 
     @Override

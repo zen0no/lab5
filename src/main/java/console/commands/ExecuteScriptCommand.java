@@ -45,11 +45,14 @@ public class ExecuteScriptCommand extends AbstractCommand{
             String path = args.get(0);
 
             for (Pair<String, Integer> p: fileNames){
-                if(p.getLeft().equals(path) && p.getRight() < level )throw new ConsoleException("This script already executed. Change it to avoid looping");
+                if(p.getLeft().equals(path) && p.getRight() < level ) {
+                    System.out.println("This script can cause looping");
+                    return false;
+                }
             }
 
             File f = new File(args.get(0));
-            CommandManager tempManager = new CommandManager(new FileInputStream(f), this.repository, builder);
+            CommandManager tempManager = new CommandManager(new FileInputStream(f), this.repository);
             Map<String, Command> commands = new HashMap<>();
 
             Command c = new ClearCommand(repository);

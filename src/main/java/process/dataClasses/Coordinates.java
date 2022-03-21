@@ -14,9 +14,9 @@ public class Coordinates implements Comparable<Coordinates>{
     private final long x; // max: 673
     private final long y;
 
-    public Coordinates(long x, long y) throws IllegalArgumentException
+    public Coordinates(long x, long y) throws IllegalModelFieldException
     {
-        if (Math.abs(x) > 673) throw new IllegalArgumentException("Abs of x is more than maximum possible value");
+        if (Math.abs(x) > 673) throw new IllegalModelFieldException("Abs of x is more than maximum possible value");
 
         this.x = x;
         this.y = y;
@@ -32,16 +32,19 @@ public class Coordinates implements Comparable<Coordinates>{
         } catch (NullPointerException e) {
             return null;
         }
+        catch (NumberFormatException e){
+            throw new IllegalModelFieldException("can't parse long from this value");
+        }
     }
 
     public static Coordinates parseCoordinates(String s){
-        String[] args = s.split(";");
+        String[] args = s.split(":");
         try {
             return new Coordinates(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         }
 
         catch (IndexOutOfBoundsException e){
-            throw new IllegalArgumentException("incorrect format of string");
+            throw new IllegalModelFieldException("incorrect format of string");
         }
     }
 

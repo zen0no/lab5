@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ShowCommand extends AbstractCommand {
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     /**
      * Constructor of class
@@ -36,7 +36,7 @@ public class ShowCommand extends AbstractCommand {
             List<HumanBeing> col = repository.query();
             if (col.isEmpty()) System.out.println("Collection is empty");
             for (HumanBeing h : col) {
-                System.out.println(h.toString());
+                System.out.println(h.show());
             }
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

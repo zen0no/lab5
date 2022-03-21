@@ -31,8 +31,6 @@ public interface Command {
 
     void setScanner(Scanner scanner);
 
-    void setBuilder(HumanBeingBuilder builder);
-
     boolean validateArguments(List<String> args) throws ConsoleException;
 
 }

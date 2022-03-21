@@ -12,7 +12,7 @@ import process.repositories.Repository;
 import java.util.List;
 
 public class ClearCommand extends AbstractCommand {
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     /**
      * Constructor of class
@@ -32,12 +32,14 @@ public class ClearCommand extends AbstractCommand {
         }
         try{
             repository.removeEntity(repository.query());
+            System.out.println("Collection was cleared");
             return true;
         }
         catch (RuntimeException e) {
             System.out.println(e.getMessage());
             return false;
         }
+
     }
 
     @Override

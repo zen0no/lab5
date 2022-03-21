@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RemoveKeyCommand extends AbstractCommand {
 
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     public RemoveKeyCommand(Repository<HumanBeing> repository) {
         this.repository = repository;
@@ -52,14 +52,6 @@ public class RemoveKeyCommand extends AbstractCommand {
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
-        if (args.size() == 1) {
-            try {
-                Integer.parseInt(args.get(0));
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
+        return args.size() == 1;
     }
 }

@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PrintDescendingCommand extends AbstractCommand {
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     /**
      * Constructor of class
@@ -34,6 +34,7 @@ public class PrintDescendingCommand extends AbstractCommand {
     public boolean execute(List<String> args) throws ConsoleException {
         try {
             List<HumanBeing> query = repository.query();
+            Collections.sort(query);
             Collections.reverse(query);
             for (HumanBeing h : query) {
                 System.out.println(h);

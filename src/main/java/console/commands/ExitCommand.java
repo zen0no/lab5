@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ExitCommand extends AbstractCommand{
 
-    private Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
 
     public ExitCommand(Repository<HumanBeing> repository) {
         this.repository = repository;

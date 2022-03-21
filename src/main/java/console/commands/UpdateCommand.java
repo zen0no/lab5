@@ -10,6 +10,7 @@ import process.dataClasses.Car;
 import process.dataClasses.Coordinates;
 import process.dataClasses.HumanBeing;
 import process.exceptions.BuilderException;
+import process.exceptions.BuilderIsBusyException;
 import process.repositories.Repository;
 import process.specifications.HumanBeingSpecifications;
 import process.utils.HumanBeingBuilder;
@@ -19,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 public class UpdateCommand extends AbstractCommand{
-    Repository<HumanBeing> repository;
+    private final Repository<HumanBeing> repository;
+    private final HumanBeingBuilder builder = new HumanBeingBuilder();
 
     /**
      * Constructor of class
@@ -51,7 +53,7 @@ public class UpdateCommand extends AbstractCommand{
                 if (field.equals("car"))
                 {
                     for (String carField : Car.getFields()) {
-                        System.out.println("HumanBeing.Car" + carField + ":");
+                        System.out.println("HumanBeing.car" + carField + ":");
                         if (scanner.hasNextLine()) {
                             fieldArgs.put(carField, scanner.nextLine());
                         }
@@ -59,7 +61,7 @@ public class UpdateCommand extends AbstractCommand{
                 }
                 if (field.equals("coordinates")) {
                     for (String corField : Coordinates.getFields()) {
-                        System.out.println("HumanBeing.Coordinates" + corField + ":");
+                        System.out.println("HumanBeing.coordinates." + corField + ":");
                         if (scanner.hasNextLine()) {
                             fieldArgs.put(corField, scanner.nextLine());
                         }
@@ -84,10 +86,15 @@ public class UpdateCommand extends AbstractCommand{
         }
 
 
+        catch (BuilderIsBusyException e){
+            builder.clear();
+            return false;
+        }
         catch (BuilderException e){
             System.out.println(e.getMessage());
             return false;
         }
+
     }
 
     @Override
@@ -102,11 +109,7 @@ public class UpdateCommand extends AbstractCommand{
 
     @Override
     public boolean validateArguments(List<String> args) throws ConsoleException {
-        if (args.size() <= 2) return false;
-        for(String s: args){
-            if (!s.contains("=")) return false;
-        }
-        return true;
+        return args.size() == 1 && repository.containsPrimaryKey(args.get(0));
     }
 
 
