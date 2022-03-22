@@ -53,13 +53,13 @@ public class UpdateCommand extends AbstractCommand{
                 if (field.equals("car"))
                 {
                     for (String carField : Car.getFields()) {
-                        System.out.println("HumanBeing.car" + carField + ":");
+                        System.out.println("HumanBeing.car." + carField + ":");
                         if (scanner.hasNextLine()) {
                             fieldArgs.put(carField, scanner.nextLine());
                         }
                     }
                 }
-                if (field.equals("coordinates")) {
+                else if (field.equals("coordinates")) {
                     for (String corField : Coordinates.getFields()) {
                         System.out.println("HumanBeing.coordinates." + corField + ":");
                         if (scanner.hasNextLine()) {
@@ -79,8 +79,8 @@ public class UpdateCommand extends AbstractCommand{
                 builder.build(field, fieldArgs);
             }
             h = builder.get();
-            repository.insertEntity(h);
-            System.out.println("Added: " + h.toString());
+            repository.updateEntity(h);
+            System.out.println("Updated: " + h.toString());
             return true;
 
         }
@@ -91,6 +91,7 @@ public class UpdateCommand extends AbstractCommand{
             return false;
         }
         catch (BuilderException e){
+            builder.clear();
             System.out.println(e.getMessage());
             return false;
         }

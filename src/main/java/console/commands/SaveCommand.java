@@ -25,6 +25,7 @@ public class SaveCommand extends AbstractCommand {
         }
         try {
             repository.save();
+            System.out.println("Collection was saved");
             return true;
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

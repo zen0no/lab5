@@ -38,7 +38,7 @@ public class PrintAscendingCommand extends AbstractCommand {
             List<HumanBeing> col = repository.query();
             Collections.sort(col);
             for(HumanBeing h: col) {
-                System.out.println(h);
+                System.out.println(h.show());
             }
         } catch (RuntimeException e) {
             System.out.println(e);

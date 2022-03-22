@@ -80,8 +80,12 @@ public class ReplaceIfGreaterCommand extends AbstractCommand {
                 builder.build(field, fieldArgs);
             }
             HumanBeing updated = builder.get();
-            if (updated.compareTo(h) > 0) repository.insertEntity(h);
-            System.out.println("Replaced: " + h.toString());
+            if (updated.compareTo(h) < 0)
+            {
+                repository.updateEntity(updated);
+                System.out.println("Updated: " + h.toString());
+            }
+            else System.out.println("Not updated");
             return true;
 
         }
@@ -91,6 +95,7 @@ public class ReplaceIfGreaterCommand extends AbstractCommand {
             return false;
         }
         catch (BuilderException e){
+            builder.clear();
             System.out.println(e.getMessage());
             return false;
         }

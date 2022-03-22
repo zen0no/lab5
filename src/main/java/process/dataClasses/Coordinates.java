@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Data class
  */
-public class Coordinates implements Comparable<Coordinates>{
+public class Coordinates implements Comparable<Coordinates>, Cloneable{
 
     private static final List<String> fields = List.of("x", "y");
 
@@ -113,5 +113,16 @@ public class Coordinates implements Comparable<Coordinates>{
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public Coordinates clone(){
+        try{
+            return (Coordinates) super.clone();
+        }
+        catch(CloneNotSupportedException e){
+            return null;
+        }
+
     }
 }

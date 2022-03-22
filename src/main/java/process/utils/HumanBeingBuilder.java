@@ -1,10 +1,7 @@
 package process.utils;
 
 import process.dataClasses.*;
-import process.exceptions.BuilderException;
-import process.exceptions.BuilderIsBusyException;
-import process.exceptions.IllegalModelFieldException;
-import process.exceptions.ModelFieldException;
+import process.exceptions.*;
 
 import java.util.Date;
 import java.util.Locale;
@@ -56,7 +53,7 @@ public class HumanBeingBuilder {
      * @throws IllegalModelFieldException
      */
     public void update(HumanBeing entity) throws BuilderException, IllegalModelFieldException{
-        if (currentHuman == null) currentHuman = entity;
+        if (currentHuman == null) currentHuman = entity.clone();
         else throw  new BuilderException("Builder is busy");
     }
 
@@ -104,6 +101,10 @@ public class HumanBeingBuilder {
             if (fieldName.equals("weaponType")) currentHuman.setWeaponType(WeaponType.parseWeaponType(fieldValue));
             if (fieldName.equals("car")) currentHuman.setCar(Car.parseCar(fieldValue));
         }
+        catch (NullFieldException e){
+            throw new BuilderException("Build error: Invalid value for field \"" + e.getField() + "\"");
+        }
+
         catch (ModelFieldException e){
             throw new BuilderException("Build error: " + e.getMessage());
         }

@@ -81,6 +81,7 @@ public class InsertCommand extends AbstractCommand{
             return false;
         }
         catch (BuilderException e){
+            builder.clear();
             System.out.println(e.getMessage());
             return false;
         }

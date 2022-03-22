@@ -5,7 +5,14 @@ package process.exceptions;
  */
 public class NullFieldException extends ModelFieldException{
 
-    public NullFieldException(String description){
+    private final String field;
+
+    public NullFieldException(String description, String field){
         super(description);
+        this.field = field;
+    }
+
+    public String getField() {
+        return field;
     }
 }

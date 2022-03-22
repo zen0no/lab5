@@ -71,10 +71,9 @@ public class RemoveLowerCommand extends AbstractCommand {
                 }
             }
             HumanBeing h = builder.get();
-            System.out.println("Deleted entities:");
             List<HumanBeing> toDelete = repository.query(HumanBeingSpecifications.Lower(h));
             for (HumanBeing human: toDelete){
-                System.out.println(human.toString());
+                System.out.println("Deleted: " + human.toString());
             }
             repository.removeEntity(repository.query(HumanBeingSpecifications.Lower(h)));
             return true;

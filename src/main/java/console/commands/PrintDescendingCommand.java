@@ -37,7 +37,7 @@ public class PrintDescendingCommand extends AbstractCommand {
             Collections.sort(query);
             Collections.reverse(query);
             for (HumanBeing h : query) {
-                System.out.println(h);
+                System.out.println(h.show());
             }
         } catch (RuntimeException e) {
             System.out.println(e);

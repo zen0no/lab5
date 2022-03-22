@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Data class
  */
-public class Car implements Comparable<Car>{
+public class Car implements Comparable<Car>, Cloneable{
 
     private static final List<String> fields = List.of("cool");
     private boolean cool;
@@ -105,5 +105,16 @@ public class Car implements Comparable<Car>{
     @Override
     public int compareTo(Car o) {
         return Boolean.compare(isCool(), o.isCool());
+    }
+
+    @Override
+    public Car clone(){
+        try{
+            return (Car) super.clone();
+        }
+        catch(CloneNotSupportedException e){
+            return null;
+        }
+
     }
 }

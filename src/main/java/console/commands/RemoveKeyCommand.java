@@ -32,7 +32,9 @@ public class RemoveKeyCommand extends AbstractCommand {
         }
         try {
             String key = args.get(0);
+            HumanBeing h = repository.query(HumanBeingSpecifications.PrimaryKey(key)).get(0);
             repository.removeEntity(repository.query(HumanBeingSpecifications.PrimaryKey(key)));
+            System.out.println("Deleted: " + h.toString());
             return true;
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

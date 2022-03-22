@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * Data class
  */
-public class HumanBeing implements Comparable<HumanBeing>{
+public class HumanBeing implements Comparable<HumanBeing>, Cloneable{
 
     private static final List<String> fields = List.of(
             "name",
@@ -165,7 +165,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setCar(Car car) throws ModelFieldException{
-        if (car == null) throw new NullFieldException("HumanBeing.car is not nullable");
+        if (car == null) throw new NullFieldException("HumanBeing.car is not nullable", "car");
         this.car = car;
         currentFields.add("car");
     }
@@ -175,7 +175,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setCoordinates(Coordinates coordinates) throws ModelFieldException{
-        if (coordinates == null) throw new NullFieldException("HumanBeing.coordinates is not nullable");
+        if (coordinates == null) throw new NullFieldException("HumanBeing.coordinates is not nullable", "coordinates");
         this.coordinates = coordinates;
         currentFields.add("coordinates");
     }
@@ -185,7 +185,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setRealHero(Boolean realHero) throws ModelFieldException{
-        if (realHero == null) throw new NullFieldException("HumanBeing.realHero is not nullable");
+        if (realHero == null) throw new NullFieldException("HumanBeing.realHero is not nullable", "realHero");
         this.realHero = realHero;
         this.currentFields.add("realHero");
     }
@@ -203,7 +203,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setImpactSpeed(Integer impactSpeed) throws ModelFieldException{
-        if (impactSpeed == null) throw new NullFieldException("HumanBeing.impactSpeed is not nullable");
+        if (impactSpeed == null) throw new NullFieldException("HumanBeing.impactSpeed is not nullable", "impactSpeed");
         this.impactSpeed = impactSpeed;
         this.currentFields.add("impactSpeed");
     }
@@ -213,7 +213,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setMood(Mood mood) throws ModelFieldException{
-        if (mood == null) throw new NullFieldException("HumanBeing.mood is not nullable");
+        if (mood == null) throw new NullFieldException("HumanBeing.mood is not nullable", "mood");
         this.mood = mood;
         this.currentFields.add("mood");
     }
@@ -223,7 +223,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setName(String name) throws ModelFieldException{
-        if (name == null) throw new NullFieldException("HumanBeing.name is not nullable");
+        if (name == null) throw new NullFieldException("HumanBeing.name is not nullable", "name");
         if (name.equals("")) throw new IllegalModelFieldException("HumanBeing.name can't be empty");
         this.name = name;
         this.currentFields.add("name");
@@ -234,7 +234,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
      * @throws ModelFieldException
      */
     public void setWeaponType(WeaponType weaponType) throws ModelFieldException {
-        if (weaponType == null) throw new NullFieldException("HumanBeing.weaponType is not nullable");
+        if (weaponType == null) throw new NullFieldException("HumanBeing.weaponType is not nullable", "weaponType");
         this.weaponType = weaponType;
         this.currentFields.add("weaponType");
     }
@@ -364,4 +364,16 @@ public class HumanBeing implements Comparable<HumanBeing>{
     public int hashCode() {
         return Objects.hash(id, name, coordinates, creationDate, realHero, hasToothpick, impactSpeed, weaponType, mood, car);
     }
+
+    @Override
+    public HumanBeing clone(){
+        try{
+            return (HumanBeing) super.clone();
+        }
+        catch(CloneNotSupportedException e){
+            return null;
+        }
+
+    }
+
 }
