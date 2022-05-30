@@ -1,0 +1,16 @@
+{
+  "initDate": "dd-mm-yy",
+  "collection":
+  {
+    "aa":
+    {
+      "id": 123,
+      "name": "moey",
+      "coordinates":
+      {
+        "x": 123,
+        "y": 412
+      }
+    }
+  }
+}

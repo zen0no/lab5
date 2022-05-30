@@ -2,15 +2,15 @@ plugins {
     id 'application'
 }
 
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'lab5',
-                'Implementation-Version': 1.0,
-                'Main-Class': 'laba.Application'
-    }
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
+//task fatJar(type: Jar) {
+//    manifest {
+//        attributes 'Implementation-Title': 'lab5',
+//                'Implementation-Version': 1.0,
+//                'Main-Class': 'laba.Application'
+//    }
+//    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
 
 
 repositories {
